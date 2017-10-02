@@ -20,16 +20,9 @@ public class Commodity {
         distributionPerBox           = 0;
     }
 
-    public Commodity(String sku, String productName, int distributionSizeOneToTwo,
-                     int distributionSizeThreeToFour, int distributionSizeFiveToSix,
-                     int distributionSizeSevenToEight, int distributionTotal, int distributionPerBox) {
+    public Commodity(String sku, String productName, int distributionPerBox) {
         this.sku = sku;
         this.productName = productName;
-        this.distributionSizeOneToTwo = distributionSizeOneToTwo;
-        this.distributionSizeThreeToFour = distributionSizeThreeToFour;
-        this.distributionSizeFiveToSix = distributionSizeFiveToSix;
-        this.distributionSizeSevenToEight = distributionSizeSevenToEight;
-        this.distributionTotal = distributionTotal;
         this.distributionPerBox = distributionPerBox;
     }
 

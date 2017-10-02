@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:padding="16dp"
+            android:id="@+id/add_commodity_layout">
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="horizontal" android:layout_gravity="center_vertical">
+
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:text="SKU:" android:layout_weight=".25" android:textColor="@android:color/black"
+                android:textSize="24dp"/>
+
+        <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
+                    android:id="@+id/skuTextBox"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal" android:layout_gravity="center_vertical">
+
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:text="Name:" android:layout_weight=".25" android:textColor="@android:color/black"
+                  android:textSize="24dp"/>
+
+        <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
+                  android:id="@+id/nameTextBox"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal" android:layout_gravity="center_vertical">
+
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:text="Per Box:" android:layout_weight=".3" android:textColor="@android:color/black"
+                  android:textSize="24dp"/>
+
+        <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".7"
+                  android:id="@+id/perBoxTextBox"/>
+
+    </LinearLayout>
+
+</LinearLayout>
