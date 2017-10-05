@@ -39,8 +39,11 @@
                   android:textSize="24dp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".7"
-                  android:id="@+id/perBoxTextBox"/>
+                  android:id="@+id/perBoxTextBox" android:text="0" android:inputType="number"/>
 
     </LinearLayout>
+
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Submit" android:id="@+id/addProductConfirmation"/>
 
 </LinearLayout>

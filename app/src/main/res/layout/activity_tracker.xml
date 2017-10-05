@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="jdaniel29.tefaptracker.Tracker">
+        tools:context="jdaniel29.tefaptracker.activities.Tracker">
 
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
@@ -16,22 +16,18 @@
                       android:layout_weight=".6" android:id="@+id/screenListView"/>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
-                            android:layout_weight=".4">
+                            android:layout_weight=".4" android:gravity="top">
 
                 <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="Increment All" android:layout_weight=".35"
+                        android:text="Increment All" android:layout_weight=".33"
                         android:id="@+id/incrementAllButton"/>
 
                 <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="Decrement All" android:layout_weight=".35"
+                        android:text="Decrement All" android:layout_weight=".33"
                         android:id="@+id/decrementAllButton"/>
 
                 <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="Add Product" android:layout_weight=".35"
-                        android:id="@+id/addProductButton"/>
-
-                <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="Pick File" android:layout_weight=".2"
+                        android:text="File Management" android:layout_weight=".33"
                         android:id="@+id/pickFileButton"/>
 
 

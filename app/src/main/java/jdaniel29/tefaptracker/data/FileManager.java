@@ -2,7 +2,7 @@ package jdaniel29.tefaptracker.data;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Environment;
@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.*;
 import android.R.layout;
 import jdaniel29.tefaptracker.R;
-import jdaniel29.tefaptracker.Tracker;
 import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
@@ -26,7 +25,6 @@ import org.supercsv.prefs.CsvPreference;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.security.Permission;
 import java.util.ArrayList;
 
 public class FileManager {
@@ -43,6 +41,7 @@ public class FileManager {
     private static final CellProcessor[] processors = {new NotNull(), new NotNull(), new ParseInt(), new ParseInt(),
                                                        new ParseInt(), new ParseInt(), new ParseInt(), new ParseInt()};
 
+    public static ArrayList<Commodity> currentCommodities = new ArrayList<>();
     private FileManager(){
 
     }
@@ -66,12 +65,9 @@ public class FileManager {
         ICsvBeanWriter writer;
         System.out.println(currentFile.exists());
 
-        if(currentFile.exists()) {
-            writer = new CsvBeanWriter(new FileWriter(currentFile, true), CsvPreference.STANDARD_PREFERENCE);
-        } else {
-            writer = new CsvBeanWriter(new FileWriter(currentFile), CsvPreference.STANDARD_PREFERENCE);
-            writer.writeHeader(headers);
-        }
+        writer = new CsvBeanWriter(new FileWriter(currentFile, false), CsvPreference.STANDARD_PREFERENCE);
+        writer.writeHeader(headers);
+
 
         if(commodities == null){
             writer.close();
@@ -90,27 +86,19 @@ public class FileManager {
         writeFile(commodities);
     }
 
-    public static void createFile() throws Exception{
-        ICsvBeanWriter writer;
-        writer = new CsvBeanWriter(new FileWriter(currentFile), CsvPreference.STANDARD_PREFERENCE);
-        writer.writeHeader(headers);
-        writer.close();
-    }
-
-    public static Commodity[] readFile() throws Exception{
+    public static void readFile() throws Exception{
         ICsvBeanReader reader = new CsvBeanReader(new FileReader(currentFile), CsvPreference.STANDARD_PREFERENCE);
 
         Commodity currentCommodity;
 
-        ArrayList<Commodity> commodityArrayList = new ArrayList<>();
-
+        currentCommodities = new ArrayList<>();
         reader.getHeader(true);
         while ((currentCommodity = reader.read(Commodity.class, vars, processors)) != null){
-            commodityArrayList.add(currentCommodity);
+            System.out.println(currentCommodity.toString());
+            currentCommodities.add(currentCommodity);
         }
 
-        Commodity[] returnArray = new Commodity[commodityArrayList.size()];
-        return commodityArrayList.toArray(returnArray);
+
     }
 
     public static void requestPermissions(Activity activity){
@@ -126,7 +114,7 @@ public class FileManager {
 
     }
 
-    private static void launchFilePicker(Activity activity){
+    private static void launchFilePicker(final Activity activity){
         AlertDialog.Builder alert = new AlertDialog.Builder(activity);
         final EditText editText = new EditText(activity);
 
@@ -147,11 +135,16 @@ public class FileManager {
                 }
 
                 System.out.println(currentFile.getPath() + " Succesfully Created");
+
                 try {
-                    createFile();
+                    writeFile((Commodity)null);
+                    readFile();
                 } catch (Exception e){
                     System.out.println(e.getMessage());
                 }
+
+                listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
+                listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
                 dialogInterface.dismiss();
             }
         });
@@ -163,6 +156,15 @@ public class FileManager {
         AlertDialog.Builder alert = new AlertDialog.Builder(activity);
         final File[] createdFiles = currentFileDir.listFiles();
         CharSequence[] fileNames = new CharSequence[createdFiles.length+1];
+
+        if(currentFile != null){
+            Commodity[] commodities = new Commodity[currentCommodities.size()];
+            try {
+                writeFile(currentCommodities.toArray(commodities));
+            } catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
 
         for(int i = 0; i < createdFiles.length; i++){
             fileNames[i] = createdFiles[i].getName();
@@ -177,10 +179,15 @@ public class FileManager {
                     currentFile = currentFileDir.listFiles()[i];
                     System.out.println(currentFile.getPath());
                     dialogInterface.dismiss();
+                    try {
+                        FileManager.readFile();
+                    }catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                    listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
                 } else {
                     launchFilePicker(activity);
                 }
-                listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
             }
         });
         alert.create().show();
@@ -188,34 +195,47 @@ public class FileManager {
     }
 
     private static void listCommodities(final Activity activity, ListView listView){
-        final Commodity[] commodities;
-
+        /*
         try {
-            commodities = FileManager.readFile();
+            FileManager.readFile();
         } catch (Exception e){
             Toast.makeText(activity, "Error Reading File", Toast.LENGTH_SHORT).show();
             System.out.println(e.getMessage());
             return;
-        }
-
-        if(commodities.length == 0){
-            Toast.makeText(activity, "No Commodities in File", Toast.LENGTH_SHORT).show();
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, layout.simple_list_item_1, new String[0]);
+        }*/
+        if(currentCommodities == null){
+            String[] commodityNames = {"Add New Product"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, layout.simple_list_item_1, commodityNames);
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    showAddProductDialog(activity);
+                }
+            });
             return;
         }
 
-        String[] commodityNames = new String[commodities.length];
-        for(int i = 0; i < commodities.length; i++){
-            commodityNames[i] = commodities[i].getProductName();
+        if(currentCommodities.size() == 0 || currentCommodities == null){
+            Toast.makeText(activity, "No Commodities in File", Toast.LENGTH_SHORT).show();
         }
+
+        String[] commodityNames = new String[currentCommodities.size()+1];
+        for(int i = 0; i < currentCommodities.size(); i++){
+            commodityNames[i] = currentCommodities.get(i).getProductName() + "   -   " + currentCommodities.get(i).getDistributionTotal() + " Distributed.";
+        }
+        commodityNames[currentCommodities.size()] = "Add New Product";
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, layout.simple_list_item_1, commodityNames);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showCommodityAlert(activity, commodities[(int)l]);
+                if(i < currentCommodities.size()) {
+                    showCommodityAlert(activity, currentCommodities.get((int) l));
+                } else {
+                    showAddProductDialog(activity);
+                }
             }
         });
 
@@ -239,36 +259,60 @@ public class FileManager {
         android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(activity);
         alert.setTitle("Add Commodity");
 
-
         LayoutInflater inflater = activity.getLayoutInflater();
         final View view = inflater.inflate(R.layout.layout_add_commodity, null);
         alert.setView(view);
 
-        alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                view.findViewById(R.id.skuTextBox);
+        final AlertDialog dialog = alert.create();
+        dialog.show();
 
-                String SKU = ((EditText)(view.findViewById(R.id.skuTextBox))).getText().toString();
-                String commodityName = ((EditText)(view.findViewById(R.id.nameTextBox))).getText().toString();
-                Integer perBox = Integer.valueOf(((EditText)(view.findViewById(R.id.perBoxTextBox))).getText().toString());
+        Button submitButton = (Button)dialog.findViewById(R.id.addProductConfirmation);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                dialog.findViewById(R.id.skuTextBox);
+
+                String SKU = ((EditText)(dialog.findViewById(R.id.skuTextBox))).getText().toString();
+                String commodityName = ((EditText)(dialog.findViewById(R.id.nameTextBox))).getText().toString();
+                Integer perBox = Integer.valueOf(((EditText)(dialog.findViewById(R.id.perBoxTextBox))).getText().toString());
 
                 Commodity commodity = new Commodity(SKU, commodityName, perBox);
                 addProduct(activity, commodity);
-                listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
             }
         });
-
-        alert.create().show();
-
     }
 
     private static void addProduct(Activity activity, Commodity commodity){
+        currentCommodities.add(commodity);
+        System.out.println(currentCommodities.size());
+        listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
+    }
+
+    public static void incrementAllProducts(Activity activity){
+        for(Commodity commodity : currentCommodities){
+            commodity.setDistributionTotal(commodity.getDistributionTotal() + commodity.getDistributionPerBox());
+        }
+
+
         try {
-            FileManager.writeFile(commodity);
-        } catch (Exception e){
-            Toast.makeText(activity, "File Writing Exception Thrown", Toast.LENGTH_SHORT).show();
+            listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
+        }catch (Exception e){
+            Toast.makeText(activity, "Error Writing File", Toast.LENGTH_SHORT).show();
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void decrementAllProducts(Activity activity){
+        for(Commodity commodity : currentCommodities){
+            commodity.setDistributionTotal(commodity.getDistributionTotal() - commodity.getDistributionPerBox());
+        }
+
+
+        try {
+            listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
+        }catch (Exception e){
+            Toast.makeText(activity, "Error Writing File", Toast.LENGTH_SHORT).show();
             System.out.println(e.getMessage());
         }
     }

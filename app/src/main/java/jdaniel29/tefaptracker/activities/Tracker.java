@@ -1,7 +1,8 @@
-package jdaniel29.tefaptracker;
+package jdaniel29.tefaptracker.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -9,40 +10,59 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
+import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.Commodity;
 import jdaniel29.tefaptracker.data.FileManager;
 
 public class Tracker extends AppCompatActivity {
-    Button addProductButton, pickFileButton;
-    ListView listView;
+    Button pickFileButton, incrementCommodities, decrementCommodities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracker);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setupXMLVariables();
 
         FileManager.requestPermissions(this);
         FileManager.listFiles(this);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Commodity[] writeArray = new Commodity[FileManager.currentCommodities.size()];
+        try {
+            FileManager.writeFile(FileManager.currentCommodities.toArray(writeArray));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private void setupXMLVariables(){
         final Activity activity = this;
 
-        addProductButton = (Button)findViewById(R.id.addProductButton);
         pickFileButton = (Button)findViewById(R.id.pickFileButton);
+        incrementCommodities = (Button)findViewById(R.id.incrementAllButton);
+        decrementCommodities = (Button) findViewById(R.id.decrementAllButton);
 
-        addProductButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FileManager.showAddProductDialog(activity);
-            }
-        });
         pickFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FileManager.listFiles(activity);
+            }
+        });
+        incrementCommodities.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FileManager.incrementAllProducts(activity);
+            }
+        });
+        decrementCommodities.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FileManager.decrementAllProducts(activity);
             }
         });
     }
