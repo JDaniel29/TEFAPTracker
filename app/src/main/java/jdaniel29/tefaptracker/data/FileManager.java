@@ -29,9 +29,9 @@ import java.util.ArrayList;
 
 public class FileManager {
 
-    public static File currentFileDir = new File(Environment.getExternalStorageDirectory() +
+    private static File currentFileDir = new File(Environment.getExternalStorageDirectory() +
                                                     File.separator + "Food Tracker");
-    public static File currentFile;
+    private static File currentFile;
 
     private static final String[] vars = {"sku", "productName", "distributionSizeOne", "distributionSizeTwoToThree",
             "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox"};
@@ -337,7 +337,7 @@ public class FileManager {
 
     }
 
-    public static void showAddProductDialog(final Activity activity){
+    private static void showAddProductDialog(final Activity activity){
         android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(activity);
         alert.setTitle("Add Commodity");
 
