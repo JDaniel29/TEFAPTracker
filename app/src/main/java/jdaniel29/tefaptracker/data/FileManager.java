@@ -357,9 +357,26 @@ public class FileManager {
         listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
     }
 
-    public static void incrementAllProducts(Activity activity){
+    public static void incrementAllProducts(Activity activity, int category){
         for(Commodity commodity : currentCommodities){
-            commodity.setDistributionTotal(commodity.getDistributionTotal() + commodity.getDistributionPerBox());
+            //System.out.println(commodity.toString());
+            switch(category){
+                case 1:
+                    commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + commodity.getDistributionPerBox());
+                    break;
+                case 23:
+                    commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + commodity.getDistributionPerBox());
+                    break;
+                case 45:
+                    commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + commodity.getDistributionPerBox());
+                    break;
+                case 67:
+                    commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + commodity.getDistributionPerBox());
+                    break;
+            }
+            commodity.updateDistributionTotal();
+            //System.out.println(commodity.toString());
+            //commodity.setDistributionTotal(commodity.getDistributionTotal() + commodity.getDistributionPerBox());
         }
 
 
@@ -371,9 +388,24 @@ public class FileManager {
         }
     }
 
-    public static void decrementAllProducts(Activity activity){
+    public static void decrementAllProducts(Activity activity, int category){
         for(Commodity commodity : currentCommodities){
-            commodity.setDistributionTotal(commodity.getDistributionTotal() - commodity.getDistributionPerBox());
+            switch(category){
+                case 1:
+                    commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() - commodity.getDistributionPerBox());
+                    break;
+                case 23:
+                    commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() - commodity.getDistributionPerBox());
+                    break;
+                case 45:
+                    commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() - commodity.getDistributionPerBox());
+                    break;
+                case 67:
+                    commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() - commodity.getDistributionPerBox());
+                    break;
+            }
+            commodity.updateDistributionTotal();
+            //commodity.setDistributionTotal(commodity.getDistributionTotal() - commodity.getDistributionPerBox());
         }
 
 
@@ -384,4 +416,5 @@ public class FileManager {
             System.out.println(e.getMessage());
         }
     }
+
 }

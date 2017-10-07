@@ -8,30 +8,46 @@
         android:orientation="vertical"
         tools:context="jdaniel29.tefaptracker.activities.Tracker">
 
+    <ListView android:layout_width="match_parent" android:layout_height="0dp"
+              android:layout_weight=".6" android:id="@+id/screenListView"/>
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                        android:orientation="vertical">
 
-            <ListView android:layout_width="match_parent" android:layout_height="0dp"
-                      android:layout_weight=".6" android:id="@+id/screenListView"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
+                        android:orientation="vertical" android:layout_weight=".4">
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
-                            android:layout_weight=".4" android:gravity="top">
 
-                <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="Increment All" android:layout_weight=".33"
-                        android:id="@+id/incrementAllButton"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="top">
 
-                <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="Decrement All" android:layout_weight=".33"
-                        android:id="@+id/decrementAllButton"/>
+                <ToggleButton android:layout_width="0.00dp" android:layout_height="wrap_content"
+                              android:layout_weight="0.5" android:id="@+id/AllCommoditiesIncrementAndDecrementToggle"
+                              android:textOn="Increment" android:textOff="Decrement" android:checked="true"/>
 
                 <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="File Management" android:layout_weight=".33"
+                        android:text="File Management" android:layout_weight=".50"
                         android:id="@+id/pickFileButton"/>
 
 
             </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal" android:layout_gravity="center_vertical">
+
+
+                <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
+                        android:layout_weight="0.25" android:text="1" android:id="@+id/add1AllCommodity"/>
+
+                <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
+                        android:layout_weight="0.25" android:text="2-3" android:id="@+id/add23AllCommodity"/>
+
+                <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
+                        android:layout_weight="0.25" android:text="4-5" android:id="@+id/add45AllCommodity"/>
+
+                <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
+                        android:layout_weight="0.25" android:text="6-7" android:id="@+id/add67AllCommodity"/>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
 
