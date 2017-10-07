@@ -33,10 +33,10 @@ public class FileManager {
                                                     File.separator + "Food Tracker");
     public static File currentFile;
 
-    private static final String[] vars = {"sku", "productName", "distributionSizeOneToTwo", "distributionSizeThreeToFour",
-            "distributionSizeFiveToSix", "distributionSizeSevenToEight", "distributionTotal", "distributionPerBox"};
+    private static final String[] vars = {"sku", "productName", "distributionSizeOne", "distributionSizeTwoToThree",
+            "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox"};
 
-    private static final String[] headers = {"SKU Number", "Product Name", "Size 1-2", "Size 3-4", "Size 5-6", "Size 7-8", "Total", "Per Box"};
+    private static final String[] headers = {"SKU Number", "Product Name", "Size 1", "Size 2-3", "Size 4-5", "Size 6-7", "Total", "Per Box"};
 
     private static final CellProcessor[] processors = {new NotNull(), new NotNull(), new ParseInt(), new ParseInt(),
                                                        new ParseInt(), new ParseInt(), new ParseInt(), new ParseInt()};
@@ -81,12 +81,12 @@ public class FileManager {
         writer.close();
     }
 
-    public static void writeFile(Commodity commodity) throws Exception{
+    private static void writeFile(Commodity commodity) throws Exception{
         Commodity[] commodities = {commodity};
         writeFile(commodities);
     }
 
-    public static void readFile() throws Exception{
+    private static void readFile() throws Exception{
         ICsvBeanReader reader = new CsvBeanReader(new FileReader(currentFile), CsvPreference.STANDARD_PREFERENCE);
 
         Commodity currentCommodity;
@@ -114,7 +114,7 @@ public class FileManager {
 
     }
 
-    private static void launchFilePicker(final Activity activity){
+    private static void launchFileNamer(final Activity activity){
         AlertDialog.Builder alert = new AlertDialog.Builder(activity);
         final EditText editText = new EditText(activity);
 
@@ -186,7 +186,7 @@ public class FileManager {
                     }
                     listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
                 } else {
-                    launchFilePicker(activity);
+                    launchFileNamer(activity);
                 }
             }
         });
@@ -242,8 +242,76 @@ public class FileManager {
 
     }
 
-    private static void showCommodityAlert(Activity activity, Commodity commodity){
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+    private static void showCommodityAlert(final Activity activity, final Commodity commodity){
+        android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(activity);
+        alert.setTitle("Details for " + commodity.getProductName());
+
+        LayoutInflater inflater = activity.getLayoutInflater();
+        final View view = inflater.inflate(R.layout.layout_commodity_details, null);
+        alert.setView(view);
+
+        final AlertDialog dialog = alert.create();
+        dialog.show();
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
+            }
+        });
+
+        Button add1Button = (Button)dialog.findViewById(R.id.add1Commodity),
+                add23Button = (Button)dialog.findViewById(R.id.add23Commodity),
+                add45Button = (Button)dialog.findViewById(R.id.add45Commodity),
+                add67Button = (Button)dialog.findViewById(R.id.add67Commodity);
+
+        final ToggleButton toggle = (ToggleButton)dialog.findViewById(R.id.switchIncrementAndDecrementToggle);
+
+        final TextView textView = (TextView)dialog.findViewById(R.id.commodityDescriptionTextView);
+        textView.setText(commodity.toString());
+
+        add1Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int multiplier = (toggle.isChecked()) ? 1 : -1;
+                commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + multiplier*commodity.getDistributionPerBox());
+                commodity.updateDistributionTotal();
+                textView.setText(commodity.toString());
+            }
+        });
+
+        add23Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int multiplier = (toggle.isChecked()) ? 1 : -1;
+                commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + multiplier*commodity.getDistributionPerBox());
+                commodity.updateDistributionTotal();
+                textView.setText(commodity.toString());
+            }
+        });
+
+        add45Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int multiplier = (toggle.isChecked()) ? 1 : -1;
+                commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + multiplier*commodity.getDistributionPerBox());
+                commodity.updateDistributionTotal();
+                textView.setText(commodity.toString());
+            }
+        });
+
+        add67Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int multiplier = (toggle.isChecked()) ? 1 : -1;
+                commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + multiplier*commodity.getDistributionPerBox());
+                commodity.updateDistributionTotal();
+                textView.setText(commodity.toString());
+            }
+        });
+
+
+        /*
         builder.setTitle("Details about " + commodity.getProductName());
         builder.setMessage(commodity.toString());
         builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
@@ -251,8 +319,8 @@ public class FileManager {
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
-        });
-        builder.create().show();
+        });*/
+
     }
 
     public static void showAddProductDialog(final Activity activity){

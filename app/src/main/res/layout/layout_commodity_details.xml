@@ -7,4 +7,38 @@
               android:padding="16dp"
               android:id="@+id/commodity_details_layout">
 
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:id="@+id/commodityDescriptionTextView"/>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal" android:layout_gravity="center_vertical">
+
+
+        <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
+                android:layout_weight="0.25" android:text="1" android:id="@+id/add1Commodity"/>
+
+        <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
+                android:layout_weight="0.25" android:text="2-3" android:id="@+id/add23Commodity"/>
+
+        <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
+                android:layout_weight="0.25" android:text="4-5" android:id="@+id/add45Commodity"/>
+
+        <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
+                android:layout_weight="0.25" android:text="6-7" android:id="@+id/add67Commodity"/>
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal" android:layout_gravity="center_vertical">
+
+
+        <ToggleButton android:layout_width="0.00dp" android:layout_height="wrap_content"
+                      android:layout_weight="0.5" android:id="@+id/switchIncrementAndDecrementToggle"
+                      android:textOn="Increment" android:textOff="Decrement" android:checked="true"/>
+
+        <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
+                android:layout_weight="0.5" android:text="Remove Commodity" android:id="@+id/removeCommodity"/>
+
+    </LinearLayout>
+
 </LinearLayout>

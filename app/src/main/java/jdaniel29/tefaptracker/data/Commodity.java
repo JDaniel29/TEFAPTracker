@@ -2,20 +2,20 @@ package jdaniel29.tefaptracker.data;
 
 public class Commodity {
     private String sku, productName;
-    private int distributionSizeOneToTwo,
-                distributionSizeThreeToFour,
-                distributionSizeFiveToSix,
-                distributionSizeSevenToEight,
+    private int distributionSizeOne,
+                distributionSizeTwoToThree,
+                distributionSizeFourToFive,
+                distributionSizeSixToSeven,
                 distributionTotal,
                 distributionPerBox;
 
     public Commodity(){
         sku                          = "UNASSIGNED";
         productName                  = "UNASSIGNED";
-        distributionSizeOneToTwo     = 0;
-        distributionSizeThreeToFour  = 0;
-        distributionSizeFiveToSix    = 0;
-        distributionSizeSevenToEight = 0;
+        distributionSizeOne = 0;
+        distributionSizeTwoToThree = 0;
+        distributionSizeFourToFive = 0;
+        distributionSizeSixToSeven = 0;
         distributionTotal            = 0;
         distributionPerBox           = 0;
     }
@@ -30,10 +30,11 @@ public class Commodity {
     public String toString() {
         return "SKU: " + this.sku +
                 "\nName: " + this.productName +
-                "\nDistribution 1-2: " + this.distributionSizeOneToTwo +
-                "\nDistribution 3-4: " + this.distributionSizeThreeToFour +
-                "\nDistribution 5-6: " + this.distributionSizeFiveToSix +
-                "\nDistribution 7-8: " + this.distributionSizeSevenToEight +
+                "\nDistribution 1-2: " + this.distributionSizeOne +
+                "\nDistribution 3-4: " + this.distributionSizeTwoToThree +
+                "\nDistribution 5-6: " + this.distributionSizeFourToFive +
+                "\nDistribution 7-8: " + this.distributionSizeSixToSeven +
+                "\nDistribution Per Box: " + this.distributionPerBox +
                 "\nDistribution Total: " + this.distributionTotal;
     }
 
@@ -53,36 +54,36 @@ public class Commodity {
         this.productName = productName;
     }
 
-    public int getDistributionSizeOneToTwo() {
-        return distributionSizeOneToTwo;
+    public int getDistributionSizeOne() {
+        return distributionSizeOne;
     }
 
-    public void setDistributionSizeOneToTwo(int distributionSizeOneToTwo) {
-        this.distributionSizeOneToTwo = distributionSizeOneToTwo;
+    public void setDistributionSizeOne(int distributionSizeOne) {
+        this.distributionSizeOne = distributionSizeOne;
     }
 
-    public int getDistributionSizeThreeToFour() {
-        return distributionSizeThreeToFour;
+    public int getDistributionSizeTwoToThree() {
+        return distributionSizeTwoToThree;
     }
 
-    public void setDistributionSizeThreeToFour(int distributionSizeThreeToFour) {
-        this.distributionSizeThreeToFour = distributionSizeThreeToFour;
+    public void setDistributionSizeTwoToThree(int distributionSizeTwoToThree) {
+        this.distributionSizeTwoToThree = distributionSizeTwoToThree;
     }
 
-    public int getDistributionSizeFiveToSix() {
-        return distributionSizeFiveToSix;
+    public int getDistributionSizeFourToFive() {
+        return distributionSizeFourToFive;
     }
 
-    public void setDistributionSizeFiveToSix(int distributionSizeFiveToSix) {
-        this.distributionSizeFiveToSix = distributionSizeFiveToSix;
+    public void setDistributionSizeFourToFive(int distributionSizeFourToFive) {
+        this.distributionSizeFourToFive = distributionSizeFourToFive;
     }
 
-    public int getDistributionSizeSevenToEight() {
-        return distributionSizeSevenToEight;
+    public int getDistributionSizeSixToSeven() {
+        return distributionSizeSixToSeven;
     }
 
-    public void setDistributionSizeSevenToEight(int distributionSizeSevenToEight) {
-        this.distributionSizeSevenToEight = distributionSizeSevenToEight;
+    public void setDistributionSizeSixToSeven(int distributionSizeSixToSeven) {
+        this.distributionSizeSixToSeven = distributionSizeSixToSeven;
     }
 
     public int getDistributionPerBox() {
@@ -95,6 +96,10 @@ public class Commodity {
 
     public int getDistributionTotal() {
         return distributionTotal;
+    }
+
+    public void updateDistributionTotal(){
+        this.distributionTotal = this.distributionSizeOne + this.distributionSizeTwoToThree + this.distributionSizeFourToFive + this.distributionSizeSixToSeven;
     }
 
     public void setDistributionTotal(int distributionTotal) {
