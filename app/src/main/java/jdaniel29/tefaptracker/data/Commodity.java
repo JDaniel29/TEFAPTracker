@@ -21,19 +21,23 @@ public class Commodity {
     }
 
     public Commodity(String sku, String productName, int distributionPerBox) {
-        this.sku = sku;
-        this.productName = productName;
+        //this.sku = (sku1 == null) ? sku1 : "";
+        //this.productName = (productName1 == null) ? productName1 : "";
+
+        this.sku = (sku.length() == 0) ? " " : productName;
+        this.productName = (productName.length() == 0) ? " " : productName;
         this.distributionPerBox = distributionPerBox;
+
     }
 
     @Override
     public String toString() {
         return "SKU: " + this.sku +
                 "\nName: " + this.productName +
-                "\nDistribution 1-2: " + this.distributionSizeOne +
-                "\nDistribution 3-4: " + this.distributionSizeTwoToThree +
-                "\nDistribution 5-6: " + this.distributionSizeFourToFive +
-                "\nDistribution 7-8: " + this.distributionSizeSixToSeven +
+                "\nDistribution 1: " + this.distributionSizeOne +
+                "\nDistribution 2-3: " + this.distributionSizeTwoToThree +
+                "\nDistribution 4-5: " + this.distributionSizeFourToFive +
+                "\nDistribution 6-7: " + this.distributionSizeSixToSeven +
                 "\nDistribution Per Box: " + this.distributionPerBox +
                 "\nDistribution Total: " + this.distributionTotal;
     }

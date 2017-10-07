@@ -42,6 +42,7 @@ public class FileManager {
                                                        new ParseInt(), new ParseInt(), new ParseInt(), new ParseInt()};
 
     public static ArrayList<Commodity> currentCommodities = new ArrayList<>();
+
     private FileManager(){
 
     }
@@ -137,7 +138,12 @@ public class FileManager {
                 System.out.println(currentFile.getPath() + " Succesfully Created");
 
                 try {
-                    writeFile((Commodity)null);
+                    if(currentFile == null) {
+                        writeFile((Commodity) null);
+                    } else {
+                        Commodity[] writeArray = new Commodity[currentCommodities.size()];
+                        writeFile(currentCommodities.toArray(writeArray));
+                    }
                     readFile();
                 } catch (Exception e){
                     System.out.println(e.getMessage());
@@ -263,7 +269,8 @@ public class FileManager {
         Button add1Button = (Button)dialog.findViewById(R.id.add1Commodity),
                 add23Button = (Button)dialog.findViewById(R.id.add23Commodity),
                 add45Button = (Button)dialog.findViewById(R.id.add45Commodity),
-                add67Button = (Button)dialog.findViewById(R.id.add67Commodity);
+                add67Button = (Button)dialog.findViewById(R.id.add67Commodity),
+                removeButton = (Button)dialog.findViewById(R.id.removeCommodity);
 
         final ToggleButton toggle = (ToggleButton)dialog.findViewById(R.id.switchIncrementAndDecrementToggle);
 
@@ -310,6 +317,13 @@ public class FileManager {
             }
         });
 
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeProduct(activity, commodity);
+                dialog.dismiss();
+            }
+        });
 
         /*
         builder.setTitle("Details about " + commodity.getProductName());
@@ -345,6 +359,7 @@ public class FileManager {
                 String commodityName = ((EditText)(dialog.findViewById(R.id.nameTextBox))).getText().toString();
                 Integer perBox = Integer.valueOf(((EditText)(dialog.findViewById(R.id.perBoxTextBox))).getText().toString());
 
+
                 Commodity commodity = new Commodity(SKU, commodityName, perBox);
                 addProduct(activity, commodity);
             }
@@ -353,6 +368,12 @@ public class FileManager {
 
     private static void addProduct(Activity activity, Commodity commodity){
         currentCommodities.add(commodity);
+        System.out.println(currentCommodities.size());
+        listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
+    }
+
+    private static void removeProduct(Activity activity, Commodity commodity){
+        currentCommodities.remove(commodity);
         System.out.println(currentCommodities.size());
         listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
     }
