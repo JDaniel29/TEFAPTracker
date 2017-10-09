@@ -99,7 +99,6 @@ public class FileManager {
             currentCommodities.add(currentCommodity);
         }
 
-
     }
 
     public static void requestPermissions(Activity activity){
@@ -111,6 +110,7 @@ public class FileManager {
         } else {
             System.out.println("WE HAVE THE PERMISSIONS!");
             FileManager.setupDirectory();
+            FileManager.listFiles(activity);
         }
 
     }
