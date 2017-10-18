@@ -7,7 +7,10 @@ public class Commodity {
                 distributionSizeFourToFive,
                 distributionSizeSixToSeven,
                 distributionTotal,
-                distributionPerBox;
+                distributionPerBox,
+                largeFamilyThreshold;
+
+    private boolean largeFamilyProduct;
 
     public Commodity(){
         sku                          = "UNASSIGNED";
@@ -108,5 +111,21 @@ public class Commodity {
 
     public void setDistributionTotal(int distributionTotal) {
         this.distributionTotal = distributionTotal;
+    }
+
+    public int getLargeFamilyThreshold() {
+        return largeFamilyThreshold;
+    }
+
+    public void setLargeFamilyThreshold(int largeFamilyThreshold) {
+        this.largeFamilyThreshold = largeFamilyThreshold;
+    }
+
+    public boolean getLargeFamilyProduct() {
+        return largeFamilyProduct;
+    }
+
+    public void setLargeFamilyProduct(boolean largeFamilyProduct) {
+        this.largeFamilyProduct = largeFamilyProduct;
     }
 }

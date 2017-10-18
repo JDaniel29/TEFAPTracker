@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.*;
 import android.R.layout;
 import jdaniel29.tefaptracker.R;
+import org.supercsv.cellprocessor.ConvertNullTo;
+import org.supercsv.cellprocessor.ParseBool;
 import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
@@ -34,12 +36,13 @@ public class FileManager {
     private static File currentFile;
 
     private static final String[] vars = {"sku", "productName", "distributionSizeOne", "distributionSizeTwoToThree",
-            "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox"};
+            "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox", "largeFamilyProduct", "largeFamilyThreshold"};
 
-    private static final String[] headers = {"SKU Number", "Product Name", "Size 1", "Size 2-3", "Size 4-5", "Size 6-7", "Total", "Per Box"};
+    private static final String[] headers = {"SKU Number", "Product Name", "Size 1", "Size 2-3", "Size 4-5", "Size 6-7", "Total", "Per Box", "Large Family Product?", "Large Family Threshold"};
 
     private static final CellProcessor[] processors = {new NotNull(), new NotNull(), new ParseInt(), new ParseInt(),
-                                                       new ParseInt(), new ParseInt(), new ParseInt(), new ParseInt()};
+                                                       new ParseInt(), new ParseInt(), new ParseInt(), new ParseInt(),
+                                                       new ParseBool(), new ParseInt()};
 
     public static ArrayList<Commodity> currentCommodities = new ArrayList<>();
 
