@@ -151,6 +151,7 @@ public class FileManager {
 
                 listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
                 listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
+                updateProductCounts(activity);
                 dialogInterface.dismiss();
             }
         });
@@ -191,6 +192,7 @@ public class FileManager {
                         System.out.println(e.getMessage());
                     }
                     listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
+                    updateProductCounts(activity);
                 } else {
                     launchFileNamer(activity);
                 }
@@ -263,6 +265,7 @@ public class FileManager {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
+                updateProductCounts(activity);
             }
         });
 
@@ -379,6 +382,8 @@ public class FileManager {
     }
 
     public static void incrementAllProducts(Activity activity, int category){
+
+
         for(Commodity commodity : currentCommodities){
             //System.out.println(commodity.toString());
             switch(category){
@@ -402,6 +407,7 @@ public class FileManager {
 
 
         try {
+            updateProductCounts(activity);
             listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
         }catch (Exception e){
             Toast.makeText(activity, "Error Writing File", Toast.LENGTH_SHORT).show();
@@ -431,11 +437,36 @@ public class FileManager {
 
 
         try {
+            updateProductCounts(activity);
             listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
         }catch (Exception e){
             Toast.makeText(activity, "Error Writing File", Toast.LENGTH_SHORT).show();
             System.out.println(e.getMessage());
         }
+    }
+
+    private static void updateProductCounts(Activity activity){
+        TextView totalOneCommoditiesTextView      = (TextView)activity.findViewById(R.id.totalOneCommodities),
+                 totalTwoThreeCommoditiesTextView = (TextView)activity.findViewById(R.id.totalTwoThreeCommodities),
+                 totalFourFiveCommoditiesTextView = (TextView)activity.findViewById(R.id.totalFourFiveCommodities),
+                 totalSixPlusCommoditiesTextView  = (TextView)activity.findViewById(R.id.totalSixPlusCommodities);
+
+        int totalOneCommodities      = 0,
+            totalTwoThreeCommodities = 0,
+            totalFourFiveCommodities = 0,
+            totalSixPlusCommodities  = 0;
+
+        for(Commodity commodity : currentCommodities){
+            totalOneCommodities      += commodity.getDistributionSizeOne();
+            totalTwoThreeCommodities += commodity.getDistributionSizeTwoToThree();
+            totalFourFiveCommodities += commodity.getDistributionSizeFourToFive();
+            totalSixPlusCommodities  += commodity.getDistributionSizeSixToSeven();
+        }
+
+        totalOneCommoditiesTextView.setText(String.valueOf(totalOneCommodities));
+        totalTwoThreeCommoditiesTextView.setText(String.valueOf(totalTwoThreeCommodities));
+        totalFourFiveCommoditiesTextView.setText(String.valueOf(totalFourFiveCommodities));
+        totalSixPlusCommoditiesTextView.setText(String.valueOf(totalSixPlusCommodities));
     }
 
 }

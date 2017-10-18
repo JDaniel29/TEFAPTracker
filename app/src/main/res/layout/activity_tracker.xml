@@ -47,6 +47,28 @@
 
             </LinearLayout>
 
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:orientation="horizontal" android:layout_gravity="center_vertical">
+
+
+                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content" android:gravity="center_horizontal"
+                        android:layout_weight="0.25" android:text="0" android:id="@+id/totalOneCommodities"
+                        android:textSize="22dp"  android:textColor="@android:color/black"/>
+
+                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content" android:gravity="center_horizontal"
+                          android:layout_weight="0.25" android:text="0" android:id="@+id/totalTwoThreeCommodities"
+                          android:textSize="22dp"  android:textColor="@android:color/black"/>
+
+                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content" android:gravity="center_horizontal"
+                          android:layout_weight="0.25" android:text="0" android:id="@+id/totalFourFiveCommodities"
+                          android:textSize="22dp"  android:textColor="@android:color/black"/>
+
+                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content" android:gravity="center_horizontal"
+                          android:layout_weight="0.25" android:text="0" android:id="@+id/totalSixPlusCommodities"
+                          android:textSize="22dp"  android:textColor="@android:color/black"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

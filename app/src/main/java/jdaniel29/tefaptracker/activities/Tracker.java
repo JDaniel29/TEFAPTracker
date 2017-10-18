@@ -125,6 +125,7 @@ public class Tracker extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+        FileManager.setupDirectory();
         FileManager.listFiles(this);
 
             // other 'case' lines to check for other
