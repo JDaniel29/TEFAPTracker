@@ -7,10 +7,10 @@ public class Commodity {
                 distributionSizeFourToFive,
                 distributionSizeSixToSeven,
                 distributionTotal,
-                distributionPerBox,
-                largeFamilyThreshold;
+                distributionPerBox;
 
-    private boolean largeFamilyProduct;
+    private FileManager.Size largeFamilyThreshold;
+
 
     public Commodity(){
         sku                          = "UNASSIGNED";
@@ -33,6 +33,13 @@ public class Commodity {
 
     }
 
+    public Commodity(String sku, String productName, int distributionPerBox, FileManager.Size largeFamilyThreshold) {
+        this.sku = sku;
+        this.productName = productName;
+        this.distributionPerBox = distributionPerBox;
+        this.largeFamilyThreshold = largeFamilyThreshold;
+    }
+
     @Override
     public String toString() {
         return "SKU: " + this.sku +
@@ -42,7 +49,8 @@ public class Commodity {
                 "\nDistribution 4-5: " + this.distributionSizeFourToFive +
                 "\nDistribution 6-7: " + this.distributionSizeSixToSeven +
                 "\nDistribution Per Box: " + this.distributionPerBox +
-                "\nDistribution Total: " + this.distributionTotal;
+                "\nDistribution Total: " + this.distributionTotal +
+                "\nMinimum Distribution Size: " + this.largeFamilyThreshold;
     }
 
     public String getSku() {
@@ -113,19 +121,12 @@ public class Commodity {
         this.distributionTotal = distributionTotal;
     }
 
-    public int getLargeFamilyThreshold() {
+    public FileManager.Size getLargeFamilyThreshold() {
         return largeFamilyThreshold;
     }
 
-    public void setLargeFamilyThreshold(int largeFamilyThreshold) {
+    public void setLargeFamilyThreshold(FileManager.Size largeFamilyThreshold) {
         this.largeFamilyThreshold = largeFamilyThreshold;
     }
 
-    public boolean getLargeFamilyProduct() {
-        return largeFamilyProduct;
-    }
-
-    public void setLargeFamilyProduct(boolean largeFamilyProduct) {
-        this.largeFamilyProduct = largeFamilyProduct;
-    }
 }

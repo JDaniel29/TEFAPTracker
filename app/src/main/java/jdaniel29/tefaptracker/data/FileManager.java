@@ -15,6 +15,7 @@ import android.R.layout;
 import jdaniel29.tefaptracker.R;
 import org.supercsv.cellprocessor.ConvertNullTo;
 import org.supercsv.cellprocessor.ParseBool;
+import org.supercsv.cellprocessor.ParseEnum;
 import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
@@ -27,7 +28,11 @@ import org.supercsv.prefs.CsvPreference;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+
+import static jdaniel29.tefaptracker.data.FileManager.Size.*;
 
 public class FileManager {
 
@@ -36,15 +41,19 @@ public class FileManager {
     private static File currentFile;
 
     private static final String[] vars = {"sku", "productName", "distributionSizeOne", "distributionSizeTwoToThree",
-            "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox", "largeFamilyProduct", "largeFamilyThreshold"};
+            "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox", "largeFamilyThreshold"};
 
-    private static final String[] headers = {"SKU Number", "Product Name", "Size 1", "Size 2-3", "Size 4-5", "Size 6-7", "Total", "Per Box", "Large Family Product?", "Large Family Threshold"};
+    private static final String[] headers = {"SKU Number", "Product Name", "Size 1", "Size 2-3", "Size 4-5", "Size 6-7", "Total", "Per Box", "Large Family Threshold"};
 
-    private static final CellProcessor[] processors = {new NotNull(), new NotNull(), new ParseInt(), new ParseInt(),
+    private static final CellProcessor[] processors = {new ConvertNullTo(""), new ConvertNullTo(""), new ParseInt(), new ParseInt(),
                                                        new ParseInt(), new ParseInt(), new ParseInt(), new ParseInt(),
-                                                       new ParseBool(), new ParseInt()};
+                                                        new ParseEnum(Size.class)};
 
     public static ArrayList<Commodity> currentCommodities = new ArrayList<>();
+
+    public enum Size {
+        ONE, TWOTOTHREE, FOURTOFIVE, SIXPLUS;
+    }
 
     private FileManager(){
 
@@ -351,8 +360,15 @@ public class FileManager {
         final View view = inflater.inflate(R.layout.layout_add_commodity, null);
         alert.setView(view);
 
+
+
         final AlertDialog dialog = alert.create();
         dialog.show();
+
+        String[] array = {"1", "2-3", "4-5", "6+"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), layout.simple_list_item_1, array);
+        final Spinner spinner = (Spinner)dialog.findViewById(R.id.largeFamilyMinimumSpinner);
+        spinner.setAdapter(adapter);
 
         Button submitButton = (Button)dialog.findViewById(R.id.addProductConfirmation);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -365,8 +381,26 @@ public class FileManager {
                 String commodityName = ((EditText)(dialog.findViewById(R.id.nameTextBox))).getText().toString();
                 Integer perBox = Integer.valueOf(((EditText)(dialog.findViewById(R.id.perBoxTextBox))).getText().toString());
 
+                Commodity commodity = new Commodity();
 
-                Commodity commodity = new Commodity(SKU, commodityName, perBox);
+                //spinner.setSelection(0);
+                System.out.println(spinner.getSelectedItem().toString());
+                switch (spinner.getSelectedItem().toString()){
+                    case "1":
+                        commodity = new Commodity(SKU, commodityName, perBox, ONE);
+                        break;
+                    case "2-3":
+                        commodity = new Commodity(SKU, commodityName, perBox, TWOTOTHREE);
+                        break;
+                    case "4-5":
+                        commodity = new Commodity(SKU, commodityName, perBox, FOURTOFIVE);
+                        break;
+                    case "6+":
+                        commodity = new Commodity(SKU, commodityName, perBox, SIXPLUS);
+                        break;
+                }
+
+                System.out.println(commodity.toString());
                 addProduct(activity, commodity);
             }
         });
@@ -388,16 +422,22 @@ public class FileManager {
 
 
         for(Commodity commodity : currentCommodities){
-            //System.out.println(commodity.toString());
+            System.out.println("Category Increment" + category);
             switch(category){
                 case 1:
-                    commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + commodity.getDistributionPerBox());
+                    if(commodity.getLargeFamilyThreshold() == ONE) {
+                        commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + commodity.getDistributionPerBox());
+                    }
                     break;
                 case 23:
-                    commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + commodity.getDistributionPerBox());
+                    if(commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE){
+                        commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + commodity.getDistributionPerBox());
+                    }
                     break;
                 case 45:
-                    commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + commodity.getDistributionPerBox());
+                    if(commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE || commodity.getLargeFamilyThreshold() == FOURTOFIVE ) {
+                        commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + commodity.getDistributionPerBox());
+                    }
                     break;
                 case 67:
                     commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + commodity.getDistributionPerBox());
@@ -419,23 +459,30 @@ public class FileManager {
     }
 
     public static void decrementAllProducts(Activity activity, int category){
-        for(Commodity commodity : currentCommodities){
-            switch(category){
+        for(Commodity commodity : currentCommodities) {
+            switch (category) {
                 case 1:
-                    commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() - commodity.getDistributionPerBox());
+                    if (commodity.getLargeFamilyThreshold() == ONE) {
+                        commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() - commodity.getDistributionPerBox());
+                    }
                     break;
                 case 23:
-                    commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() - commodity.getDistributionPerBox());
+                    if (commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE) {
+                        commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() - commodity.getDistributionPerBox());
+                    }
                     break;
                 case 45:
-                    commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() - commodity.getDistributionPerBox());
+                    if (commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE || commodity.getLargeFamilyThreshold() == FOURTOFIVE) {
+                        commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() - commodity.getDistributionPerBox());
+                    }
                     break;
                 case 67:
                     commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() - commodity.getDistributionPerBox());
                     break;
+
             }
+
             commodity.updateDistributionTotal();
-            //commodity.setDistributionTotal(commodity.getDistributionTotal() - commodity.getDistributionPerBox());
         }
 
 

@@ -12,7 +12,7 @@
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                 android:text="SKU:" android:layout_weight=".25" android:textColor="@android:color/black"
-                android:textSize="24dp"/>
+                android:textSize="18sp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
                     android:id="@+id/skuTextBox"/>
@@ -24,7 +24,7 @@
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                   android:text="Name:" android:layout_weight=".25" android:textColor="@android:color/black"
-                  android:textSize="24dp"/>
+                  android:textSize="18dp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
                   android:id="@+id/nameTextBox"/>
@@ -36,7 +36,7 @@
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                   android:text="Per Box:" android:layout_weight=".3" android:textColor="@android:color/black"
-                  android:textSize="24dp"/>
+                  android:textSize="18sp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".7"
                   android:id="@+id/perBoxTextBox" android:text="0" android:inputType="number"/>
@@ -48,23 +48,11 @@
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="Large Family?" android:layout_weight=".9" android:textColor="@android:color/black"
-                  android:textSize="24dp"/>
+                  android:text="Minimum Family Size: " android:layout_weight=".6" android:textColor="@android:color/black"
+                  android:textSize="18dp" android:layout_gravity="fill"/>
 
-        <CheckBox android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".1"
-                  android:id="@+id/largeFamilyCheckBox" android:text="" />
-
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_gravity="center_vertical">
-
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="Large Family Minimum:" android:layout_weight=".8" android:textColor="@android:color/black"
-                  android:textSize="24dp"/>
-
-        <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".2"
-                  android:id="@+id/largeFamilyMinimumEditText" android:text="0" android:inputType="number"/>
+        <Spinner android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4"
+                 android:id="@+id/largeFamilyMinimumSpinner" />
 
     </LinearLayout>
 
