@@ -21,6 +21,7 @@ public class Commodity {
         distributionSizeSixToSeven = 0;
         distributionTotal            = 0;
         distributionPerBox           = 0;
+        largeFamilyThreshold         = FileManager.Size.ONE;
     }
 
     public Commodity(String sku, String productName, int distributionPerBox) {

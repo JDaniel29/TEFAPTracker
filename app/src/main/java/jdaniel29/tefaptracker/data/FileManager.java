@@ -2,6 +2,7 @@ package jdaniel29.tefaptracker.data;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -105,10 +106,18 @@ public class FileManager {
         Commodity currentCommodity;
 
         currentCommodities = new ArrayList<>();
-        reader.getHeader(true);
-        while ((currentCommodity = reader.read(Commodity.class, vars, processors)) != null){
-            System.out.println(currentCommodity.toString());
-            currentCommodities.add(currentCommodity);
+        String[] headers = reader.getHeader(true);
+
+        if(headers == oldVarsAndProcessors.oldHeaders1){
+            while ((currentCommodity = reader.read(Commodity.class, oldVarsAndProcessors.oldVars1, oldVarsAndProcessors.oldProcessors1)) != null){
+                System.out.println(currentCommodity.toString());
+                currentCommodities.add(currentCommodity);
+            }
+        } else {
+            while ((currentCommodity = reader.read(Commodity.class, vars, processors)) != null) {
+                System.out.println(currentCommodity.toString());
+                currentCommodities.add(currentCommodity);
+            }
         }
 
     }
@@ -172,7 +181,7 @@ public class FileManager {
     }
 
     public static void listFiles(final Activity activity){
-        AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+        final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
         final File[] createdFiles = currentFileDir.listFiles();
         CharSequence[] fileNames = new CharSequence[createdFiles.length+1];
 
@@ -190,6 +199,7 @@ public class FileManager {
         }
 
         fileNames[createdFiles.length] = "Create a New File";
+
 
         alert.setItems(fileNames, new DialogInterface.OnClickListener() {
             @Override
