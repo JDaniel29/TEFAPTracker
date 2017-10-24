@@ -2,11 +2,15 @@ package jdaniel29.tefaptracker.activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -14,10 +18,13 @@ import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.Commodity;
 import jdaniel29.tefaptracker.data.FileManager;
 
+import java.io.File;
+
 public class Tracker extends AppCompatActivity {
     Button pickFileButton, incrementCommodities, decrementCommodities;
 
-    Button allOneCommodityButton, allTwoThreeCommodityButton, allFourFiveCommodityButton, allSixSevenCommodityButton;
+    Button allOneCommodityButton, allTwoThreeCommodityButton, allFourFiveCommodityButton,
+            allSixSevenCommodityButton, shareFileButton;
     ToggleButton allCommoditiesToggle;
 
     @Override
@@ -27,7 +34,10 @@ public class Tracker extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setupXMLVariables();
 
+
         FileManager.requestPermissions(this);
+
+
 
     }
 
@@ -47,8 +57,10 @@ public class Tracker extends AppCompatActivity {
 
         allCommoditiesToggle = (ToggleButton)findViewById(R.id.AllCommoditiesIncrementAndDecrementToggle);
 
-        pickFileButton = (Button)findViewById(R.id.pickFileButton);
-        allOneCommodityButton = (Button)findViewById(R.id.add1AllCommodity);
+
+        pickFileButton             = (Button)findViewById(R.id.pickFileButton);
+        shareFileButton            = (Button)findViewById(R.id.shareFileButton);
+        allOneCommodityButton      = (Button)findViewById(R.id.add1AllCommodity);
         allTwoThreeCommodityButton = (Button)findViewById(R.id.add23AllCommodity);
         allFourFiveCommodityButton = (Button)findViewById(R.id.add45AllCommodity);
         allSixSevenCommodityButton = (Button)findViewById(R.id.add67AllCommodity);
@@ -69,6 +81,17 @@ public class Tracker extends AppCompatActivity {
                 } else {
                     FileManager.decrementAllProducts(activity, 1);
                 }
+            }
+        });
+
+        shareFileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                Uri documentURI = FileProvider.getUriForFile(view.getContext(), "com.JDaniel29.fileprovider", FileManager.currentFile);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, documentURI);
+                shareIntent.setType("text/csv");
+                startActivity(shareIntent);
             }
         });
         allTwoThreeCommodityButton.setOnClickListener(new View.OnClickListener() {

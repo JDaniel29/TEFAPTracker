@@ -39,7 +39,7 @@ public class FileManager {
 
     private static File currentFileDir = new File(Environment.getExternalStorageDirectory() +
                                                     File.separator + "Food Tracker");
-    private static File currentFile;
+    public static File currentFile;
 
     private static final String[] vars = {"sku", "productName", "distributionSizeOne", "distributionSizeTwoToThree",
             "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox", "largeFamilyThreshold"};

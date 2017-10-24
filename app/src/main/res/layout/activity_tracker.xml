@@ -23,8 +23,12 @@
                               android:textOn="Increment" android:textOff="Decrement" android:checked="true"/>
 
                 <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="File Management" android:layout_weight=".50"
+                        android:text="File Selector" android:layout_weight=".50"
                         android:id="@+id/pickFileButton"/>
+
+                <Button android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:text="Share File" android:layout_weight=".50"
+                        android:id="@+id/shareFileButton"/>
 
 
             </LinearLayout>
