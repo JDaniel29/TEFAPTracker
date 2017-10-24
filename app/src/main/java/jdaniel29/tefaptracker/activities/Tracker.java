@@ -35,7 +35,9 @@ public class Tracker extends AppCompatActivity {
         setupXMLVariables();
 
 
-        FileManager.requestPermissions(this);
+        FileManager.listCommodities(this, (ListView)findViewById(R.id.screenListView));
+        FileManager.updateProductCounts(this);
+
 
 
 
@@ -70,7 +72,8 @@ public class Tracker extends AppCompatActivity {
         pickFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FileManager.listFiles(activity);
+                Intent intent = new Intent(view.getContext(), FileSelector.class);
+                startActivity(intent);
             }
         });
         allOneCommodityButton.setOnClickListener(new View.OnClickListener() {
@@ -145,14 +148,4 @@ public class Tracker extends AppCompatActivity {
 
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        FileManager.setupDirectory();
-        FileManager.listFiles(this);
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-
-    }
 }

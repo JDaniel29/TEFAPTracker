@@ -37,7 +37,7 @@ import static jdaniel29.tefaptracker.data.FileManager.Size.*;
 
 public class FileManager {
 
-    private static File currentFileDir = new File(Environment.getExternalStorageDirectory() +
+    public static File currentFileDir = new File(Environment.getExternalStorageDirectory() +
                                                     File.separator + "Food Tracker");
     public static File currentFile;
 
@@ -95,12 +95,12 @@ public class FileManager {
         writer.close();
     }
 
-    private static void writeFile(Commodity commodity) throws Exception{
+    public static void writeFile(Commodity commodity) throws Exception{
         Commodity[] commodities = {commodity};
         writeFile(commodities);
     }
 
-    private static void readFile() throws Exception{
+    public static void readFile() throws Exception{
         ICsvBeanReader reader = new CsvBeanReader(new FileReader(currentFile), CsvPreference.STANDARD_PREFERENCE);
 
         Commodity currentCommodity;
@@ -122,109 +122,9 @@ public class FileManager {
 
     }
 
-    public static void requestPermissions(Activity activity){
-        String[] storagePermissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-
-        if(ContextCompat.checkSelfPermission(activity, storagePermissions[0]) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(activity, storagePermissions[1]) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(activity, storagePermissions, 1);
-        } else {
-            System.out.println("WE HAVE THE PERMISSIONS!");
-            FileManager.setupDirectory();
-            FileManager.listFiles(activity);
-        }
-
-    }
-
-    private static void launchFileNamer(final Activity activity){
-        AlertDialog.Builder alert = new AlertDialog.Builder(activity);
-        final EditText editText = new EditText(activity);
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-
-        editText.setLayoutParams(lp);
-        alert.setView(editText);
-        alert.setTitle("Enter a File Name");
-        alert.setNeutralButton("Submit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if(editText.getText().toString().contains(".csv")){
-                    currentFile = new File(currentFileDir, editText.getText().toString());
-                } else {
-                    currentFile = new File(currentFileDir, editText.getText().toString() + ".csv");
-                }
-
-                System.out.println(currentFile.getPath() + " Succesfully Created");
-
-                try {
-                    if(currentFile == null) {
-                        writeFile((Commodity) null);
-                    } else {
-                        Commodity[] writeArray = new Commodity[currentCommodities.size()];
-                        writeFile(currentCommodities.toArray(writeArray));
-                    }
-                    readFile();
-                } catch (Exception e){
-                    System.out.println(e.getMessage());
-                }
-
-                listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
-                listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
-                updateProductCounts(activity);
-                dialogInterface.dismiss();
-            }
-        });
-        alert.create().show();
-
-    }
-
-    public static void listFiles(final Activity activity){
-        final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
-        final File[] createdFiles = currentFileDir.listFiles();
-        CharSequence[] fileNames = new CharSequence[createdFiles.length+1];
-
-        if(currentFile != null){
-            Commodity[] commodities = new Commodity[currentCommodities.size()];
-            try {
-                writeFile(currentCommodities.toArray(commodities));
-            } catch (Exception e){
-                System.out.println(e.getMessage());
-            }
-        }
-
-        for(int i = 0; i < createdFiles.length; i++){
-            fileNames[i] = createdFiles[i].getName();
-        }
-
-        fileNames[createdFiles.length] = "Create a New File";
 
 
-        alert.setItems(fileNames, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if(i < createdFiles.length) {
-                    currentFile = currentFileDir.listFiles()[i];
-                    System.out.println(currentFile.getPath());
-                    dialogInterface.dismiss();
-                    try {
-                        FileManager.readFile();
-                    }catch (Exception e){
-                        System.out.println(e.getMessage());
-                    }
-                    listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
-                    updateProductCounts(activity);
-                } else {
-                    launchFileNamer(activity);
-                }
-            }
-        });
-        alert.create().show();
-
-    }
-
-    private static void listCommodities(final Activity activity, ListView listView){
+    public static void listCommodities(final Activity activity, ListView listView){
         /*
         try {
             FileManager.readFile();
@@ -505,7 +405,7 @@ public class FileManager {
         }
     }
 
-    private static void updateProductCounts(Activity activity){
+    public static void updateProductCounts(Activity activity){
         TextView totalOneCommoditiesTextView      = (TextView)activity.findViewById(R.id.totalOneCommodities),
                  totalTwoThreeCommoditiesTextView = (TextView)activity.findViewById(R.id.totalTwoThreeCommodities),
                  totalFourFiveCommoditiesTextView = (TextView)activity.findViewById(R.id.totalFourFiveCommodities),
