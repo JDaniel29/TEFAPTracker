@@ -279,8 +279,44 @@ public class FileManager {
 
         final ToggleButton toggle = (ToggleButton)dialog.findViewById(R.id.switchIncrementAndDecrementToggle);
 
-        final TextView textView = (TextView)dialog.findViewById(R.id.commodityDescriptionTextView);
-        textView.setText(commodity.toString());
+        final TextView commodityDescriptionTextView = (TextView)dialog.findViewById(R.id.commodityDescriptionTextView);
+        commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
+                "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
+                "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
+                "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
+                "\nDistribution Total: " + commodity.getDistributionTotal());
+
+        final EditText skuEditText    = (EditText)dialog.findViewById(R.id.editskuTextBox),
+                       nameEditText   = (EditText)dialog.findViewById(R.id.editNameTextBox),
+                       perBoxEditText = (EditText)dialog.findViewById(R.id.editPerBoxTextBox);
+
+        String[] array = {"1", "2-3", "4-5", "6+"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), layout.simple_list_item_1, array);
+        final Spinner minimumSizeSpinner = (Spinner)dialog.findViewById(R.id.editLargeFamilyMinimumSpinner);
+        minimumSizeSpinner.setAdapter(adapter);
+
+        skuEditText.setText(commodity.getSku());
+        nameEditText.setText(commodity.getProductName());
+        perBoxEditText.setText(String.valueOf(commodity.getDistributionPerBox()));
+
+        switch (commodity.getLargeFamilyThreshold()){
+            case ONE:
+                minimumSizeSpinner.setSelection(0);
+                break;
+
+            case TWOTOTHREE:
+                minimumSizeSpinner.setSelection(1);
+                break;
+
+            case FOURTOFIVE:
+                minimumSizeSpinner.setSelection(2);
+                break;
+
+            case SIXPLUS:
+                minimumSizeSpinner.setSelection(3);
+                break;
+        }
+
 
         add1Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,7 +324,11 @@ public class FileManager {
                 int multiplier = (toggle.isChecked()) ? 1 : -1;
                 commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + multiplier*commodity.getDistributionPerBox());
                 commodity.updateDistributionTotal();
-                textView.setText(commodity.toString());
+                commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
+                        "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
+                        "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
+                        "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
+                        "\nDistribution Total: " + commodity.getDistributionTotal());
             }
         });
 
@@ -298,7 +338,11 @@ public class FileManager {
                 int multiplier = (toggle.isChecked()) ? 1 : -1;
                 commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + multiplier*commodity.getDistributionPerBox());
                 commodity.updateDistributionTotal();
-                textView.setText(commodity.toString());
+                commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
+                        "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
+                        "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
+                        "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
+                        "\nDistribution Total: " + commodity.getDistributionTotal());
             }
         });
 
@@ -308,7 +352,11 @@ public class FileManager {
                 int multiplier = (toggle.isChecked()) ? 1 : -1;
                 commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + multiplier*commodity.getDistributionPerBox());
                 commodity.updateDistributionTotal();
-                textView.setText(commodity.toString());
+                commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
+                        "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
+                        "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
+                        "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
+                        "\nDistribution Total: " + commodity.getDistributionTotal());
             }
         });
 
@@ -318,7 +366,11 @@ public class FileManager {
                 int multiplier = (toggle.isChecked()) ? 1 : -1;
                 commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + multiplier*commodity.getDistributionPerBox());
                 commodity.updateDistributionTotal();
-                textView.setText(commodity.toString());
+                commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
+                                                    "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
+                                                    "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
+                                                    "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
+                                                    "\nDistribution Total: " + commodity.getDistributionTotal());
             }
         });
 
@@ -327,6 +379,34 @@ public class FileManager {
             public void onClick(View view) {
                 removeProduct(activity, commodity);
                 dialog.dismiss();
+            }
+        });
+
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if(currentCommodities.contains(commodity)){ //We haven't edited the product, so we need to rewrite it
+                    commodity.setSku(skuEditText.getText().toString());
+                    commodity.setProductName(nameEditText.getText().toString());
+                    commodity.setDistributionPerBox(Integer.valueOf(perBoxEditText.getText().toString()));
+                    String familySize = minimumSizeSpinner.getSelectedItem().toString();
+
+                    switch (familySize){
+                        case "1":
+                            commodity.setLargeFamilyThreshold(ONE);
+                            break;
+                        case "2-3":
+                            commodity.setLargeFamilyThreshold(TWOTOTHREE);
+                            break;
+                        case "4-5":
+                            commodity.setLargeFamilyThreshold(FOURTOFIVE);
+                            break;
+                        case "6+":
+                            commodity.setLargeFamilyThreshold(SIXPLUS);
+                            break;
+                    }
+
+                }
             }
         });
 
