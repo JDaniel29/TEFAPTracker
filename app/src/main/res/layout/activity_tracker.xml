@@ -2,7 +2,6 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -20,18 +19,19 @@
                       android:orientation="vertical" android:layout_weight=".4">
 
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="top">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:gravity="top">
 
                 <ToggleButton android:layout_width="0.00dp" android:layout_height="wrap_content"
                               android:layout_weight="0.5" android:id="@+id/AllCommoditiesIncrementAndDecrementToggle"
-                              android:textOn="Increment" android:textOff="Decrement" android:checked="true"/>
+                              android:textOn="@string/increment" android:textOff="@string/decrement" android:checked="true"/>
 
                 <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="Switch File" android:layout_weight=".50"
+                        android:text="@string/switchFile" android:layout_weight=".50"
                         android:id="@+id/pickFileButton"/>
 
                 <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="Share File" android:layout_weight=".50"
+                        android:text="@string/shareFile" android:layout_weight=".50"
                         android:id="@+id/shareFileButton"/>
 
 
@@ -42,16 +42,17 @@
 
 
                 <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                        android:layout_weight="0.25" android:text="1" android:id="@+id/add1AllCommodity"/>
+                        android:layout_weight="0.25" android:text="@string/size1" android:id="@+id/add1AllCommodity"/>
 
                 <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                        android:layout_weight="0.25" android:text="2-3" android:id="@+id/add23AllCommodity"/>
+                        android:layout_weight="0.25" android:text="@string/size23" android:id="@+id/add23AllCommodity"/>
 
                 <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                        android:layout_weight="0.25" android:text="4-5" android:id="@+id/add45AllCommodity"/>
+                        android:layout_weight="0.25" android:text="@string/size45" android:id="@+id/add45AllCommodity"/>
 
                 <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                        android:layout_weight="0.25" android:text="6-7" android:id="@+id/add67AllCommodity"/>
+                        android:layout_weight="0.25" android:text="@string/size6Plus"
+                        android:id="@+id/add67AllCommodity"/>
 
             </LinearLayout>
 
@@ -59,21 +60,25 @@
                           android:orientation="horizontal" android:layout_gravity="center_vertical">
 
 
-                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content" android:gravity="center_horizontal"
-                          android:layout_weight="0.25" android:text="0" android:id="@+id/totalOneCommodities"
-                          android:textSize="22dp"  android:textColor="@android:color/black"/>
+                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
+                          android:gravity="center_horizontal"
+                          android:layout_weight="0.25" android:text="@string/default0" android:id="@+id/totalOneCommodities"
+                          android:textSize="22sp" android:textColor="@android:color/black"/>
 
-                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content" android:gravity="center_horizontal"
-                          android:layout_weight="0.25" android:text="0" android:id="@+id/totalTwoThreeCommodities"
-                          android:textSize="22dp"  android:textColor="@android:color/black"/>
+                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
+                          android:gravity="center_horizontal"
+                          android:layout_weight="0.25" android:text="@string/default0" android:id="@+id/totalTwoThreeCommodities"
+                          android:textSize="22sp" android:textColor="@android:color/black"/>
 
-                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content" android:gravity="center_horizontal"
-                          android:layout_weight="0.25" android:text="0" android:id="@+id/totalFourFiveCommodities"
-                          android:textSize="22dp"  android:textColor="@android:color/black"/>
+                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
+                          android:gravity="center_horizontal"
+                          android:layout_weight="0.25" android:text="@string/default0" android:id="@+id/totalFourFiveCommodities"
+                          android:textSize="22sp" android:textColor="@android:color/black"/>
 
-                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content" android:gravity="center_horizontal"
-                          android:layout_weight="0.25" android:text="0" android:id="@+id/totalSixPlusCommodities"
-                          android:textSize="22dp"  android:textColor="@android:color/black"/>
+                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
+                          android:gravity="center_horizontal"
+                          android:layout_weight="0.25" android:text="@string/default0" android:id="@+id/totalSixPlusCommodities"
+                          android:textSize="22sp" android:textColor="@android:color/black"/>
 
             </LinearLayout>
 

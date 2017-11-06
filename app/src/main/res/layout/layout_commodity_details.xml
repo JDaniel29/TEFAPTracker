@@ -13,11 +13,11 @@
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="SKU:" android:layout_weight=".25" android:textColor="@android:color/black"
+                  android:text="@string/sku" android:layout_weight=".25" android:textColor="@android:color/black"
                   android:textSize="18sp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
-                  android:id="@+id/editskuTextBox"/>
+                  android:id="@+id/editskuTextBox" android:inputType="text"/>
 
     </LinearLayout>
 
@@ -25,11 +25,11 @@
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="Name:" android:layout_weight=".25" android:textColor="@android:color/black"
-                  android:textSize="18dp"/>
+                  android:text="@string/app_name" android:layout_weight=".25" android:textColor="@android:color/black"
+                  android:textSize="18sp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
-                  android:id="@+id/editNameTextBox"/>
+                  android:id="@+id/editNameTextBox" android:inputType="text"/>
 
     </LinearLayout>
 
@@ -37,11 +37,11 @@
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="Per Box:" android:layout_weight=".3" android:textColor="@android:color/black"
+                  android:text="@string/perBox" android:layout_weight=".3" android:textColor="@android:color/black"
                   android:textSize="18sp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".7"
-                  android:id="@+id/editPerBoxTextBox" android:text="0" android:inputType="number"/>
+                  android:id="@+id/editPerBoxTextBox" android:text="@string/default0" android:inputType="number"/>
 
     </LinearLayout>
 
@@ -50,8 +50,8 @@
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="Minimum Family Size: " android:layout_weight=".6" android:textColor="@android:color/black"
-                  android:textSize="18dp" android:layout_gravity="fill"/>
+                  android:text="@string/minimumFamilySize" android:layout_weight=".6" android:textColor="@android:color/black"
+                  android:textSize="18sp" android:layout_gravity="fill"/>
 
         <Spinner android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4"
                  android:id="@+id/editLargeFamilyMinimumSpinner" />
@@ -62,20 +62,20 @@
             android:id="@+id/commodityDescriptionTextView" android:textSize="18sp" android:textColor="@android:color/black"/>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_gravity="center_vertical">
+                  android:orientation="horizontal" android:layout_gravity="center_vertical" >
 
 
         <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:text="1" android:id="@+id/add1Commodity"/>
+                android:layout_weight="0.25" android:text="@string/size1" android:id="@+id/add1Commodity"/>
 
         <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:text="2-3" android:id="@+id/add23Commodity"/>
+                android:layout_weight="0.25" android:text="@string/size23" android:id="@+id/add23Commodity"/>
 
         <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:text="4-5" android:id="@+id/add45Commodity"/>
+                android:layout_weight="0.25" android:text="@string/size45" android:id="@+id/add45Commodity"/>
 
         <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:text="6+" android:id="@+id/add67Commodity"/>
+                android:layout_weight="0.25" android:text="@string/size6Plus" android:id="@+id/add67Commodity"/>
 
     </LinearLayout>
 
@@ -85,10 +85,10 @@
 
         <ToggleButton android:layout_width="0.00dp" android:layout_height="wrap_content"
                       android:layout_weight="0.5" android:id="@+id/switchIncrementAndDecrementToggle"
-                      android:textOn="Increment" android:textOff="Decrement" android:checked="true"/>
+                      android:textOn="@string/increment" android:textOff="@string/decrement" android:checked="true"/>
 
         <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.5" android:text="Remove Commodity" android:id="@+id/removeCommodity"/>
+                android:layout_weight="0.5" android:text="@string/removeCommodity" android:id="@+id/removeCommodity"/>
 
     </LinearLayout>
 

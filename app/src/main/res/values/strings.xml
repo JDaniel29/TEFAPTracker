@@ -2,8 +2,36 @@
     <string name="app_name">TEFAP Tracker</string>
     <string-array name="sizes_array">
         <item>1</item>
-        <item>2-3</item>
-        <item>4-5</item>
+        <item>2&#8211;3</item>
+        <item>4&#8211;5</item>
         <item>6+</item>
     </string-array>
+
+    <!-- Button Strings -->
+    <!-- Sizes for Buttons -->
+    <string name="size1">1</string>
+    <string name="size23">2&#8211;3</string>
+    <string name="size45">4&#8211;5</string>
+    <string name="size6Plus">6+</string>
+    <string name="submit">Submit</string>
+
+    <!-- Decerement & Increment Button Tags -->
+    <string name="increment">Increment</string>
+    <string name="decrement">Decrement</string>
+
+    <!-- Remove Commodities -->
+    <string name="removeCommodity">Remove Commodity</string>
+
+    <!-- Switch & Share File Tags -->
+    <string name="switchFile">Switch File</string>
+    <string name="shareFile">Share File</string>
+
+    <!-- TextView Defaults -->
+    <!-- Add & Edit Commodity Tags -->
+    <string name="sku">SKU:</string>
+    <string name="productName">Name:</string>
+    <string name="perBox">Per Box:</string>
+    <string name="minimumFamilySize">Minimum Family Size:</string>
+    <string name="default0">0</string>
+
 </resources>

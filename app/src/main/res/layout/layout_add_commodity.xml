@@ -11,11 +11,11 @@
                     android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                android:text="SKU:" android:layout_weight=".25" android:textColor="@android:color/black"
+                android:text="@string/sku" android:layout_weight=".25" android:textColor="@android:color/black"
                 android:textSize="18sp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
-                    android:id="@+id/skuTextBox"/>
+                    android:id="@+id/skuTextBox" android:inputType="text"/>
 
     </LinearLayout>
 
@@ -23,11 +23,11 @@
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="Name:" android:layout_weight=".25" android:textColor="@android:color/black"
-                  android:textSize="18dp"/>
+                  android:text="@string/productName" android:layout_weight=".25" android:textColor="@android:color/black"
+                  android:textSize="18sp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
-                  android:id="@+id/nameTextBox"/>
+                  android:id="@+id/nameTextBox" android:inputType="text"/>
 
     </LinearLayout>
 
@@ -35,11 +35,11 @@
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="Per Box:" android:layout_weight=".3" android:textColor="@android:color/black"
+                  android:text="@string/perBox" android:layout_weight=".3" android:textColor="@android:color/black"
                   android:textSize="18sp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".7"
-                  android:id="@+id/perBoxTextBox" android:text="0" android:inputType="number"/>
+                  android:id="@+id/perBoxTextBox" android:text="@string/default0" android:inputType="number"/>
 
     </LinearLayout>
 
@@ -48,8 +48,8 @@
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="Minimum Family Size: " android:layout_weight=".6" android:textColor="@android:color/black"
-                  android:textSize="18dp" android:layout_gravity="fill"/>
+                  android:text="@string/minimumFamilySize" android:layout_weight=".6" android:textColor="@android:color/black"
+                  android:textSize="18sp" android:layout_gravity="fill"/>
 
         <Spinner android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4"
                  android:id="@+id/largeFamilyMinimumSpinner" />
@@ -57,6 +57,6 @@
     </LinearLayout>
 
     <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Submit" android:id="@+id/addProductConfirmation"/>
+            android:text="@string/submit" android:id="@+id/addProductConfirmation"/>
 
 </LinearLayout>
