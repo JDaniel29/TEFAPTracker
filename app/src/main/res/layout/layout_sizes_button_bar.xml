@@ -7,16 +7,15 @@
               android:id="@+id/sizesButtonBar">
 
     <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-            android:layout_weight="0.25" android:text="@string/size1" android:id="@+id/add1AllCommodity"/>
+            android:layout_weight="0.25" android:text="@string/size1" android:id="@+id/add1Commodity"/>
 
     <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-            android:layout_weight="0.25" android:text="@string/size23" android:id="@+id/add23AllCommodity"/>
+            android:layout_weight="0.25" android:text="@string/size23" android:id="@+id/add23Commodity"/>
 
     <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-            android:layout_weight="0.25" android:text="@string/size45" android:id="@+id/add45AllCommodity"/>
+            android:layout_weight="0.25" android:text="@string/size45" android:id="@+id/add45Commodity"/>
 
     <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-            android:layout_weight="0.25" android:text="@string/size6Plus"
-            android:id="@+id/add67AllCommodity"/>
+            android:layout_weight="0.25" android:text="@string/size6Plus" android:id="@+id/add6PlusCommodity"/>
 
 </LinearLayout>
