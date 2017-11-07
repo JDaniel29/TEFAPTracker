@@ -37,24 +37,7 @@
 
             </LinearLayout>
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:orientation="horizontal" android:layout_gravity="center_vertical">
-
-
-                <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                        android:layout_weight="0.25" android:text="@string/size1" android:id="@+id/add1AllCommodity"/>
-
-                <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                        android:layout_weight="0.25" android:text="@string/size23" android:id="@+id/add23AllCommodity"/>
-
-                <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                        android:layout_weight="0.25" android:text="@string/size45" android:id="@+id/add45AllCommodity"/>
-
-                <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                        android:layout_weight="0.25" android:text="@string/size6Plus"
-                        android:id="@+id/add67AllCommodity"/>
-
-            </LinearLayout>
+            <include layout="@layout/layout_sizes_button_bar"/>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:orientation="horizontal" android:layout_gravity="center_vertical">

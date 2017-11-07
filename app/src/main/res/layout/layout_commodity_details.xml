@@ -25,7 +25,7 @@
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
 
         <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="@string/app_name" android:layout_weight=".25" android:textColor="@android:color/black"
+                  android:text="@string/productName" android:layout_weight=".25" android:textColor="@android:color/black"
                   android:textSize="18sp"/>
 
         <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
@@ -61,23 +61,7 @@
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
             android:id="@+id/commodityDescriptionTextView" android:textSize="18sp" android:textColor="@android:color/black"/>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_gravity="center_vertical" >
-
-
-        <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:text="@string/size1" android:id="@+id/add1Commodity"/>
-
-        <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:text="@string/size23" android:id="@+id/add23Commodity"/>
-
-        <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:text="@string/size45" android:id="@+id/add45Commodity"/>
-
-        <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:text="@string/size6Plus" android:id="@+id/add67Commodity"/>
-
-    </LinearLayout>
+    <include layout="@layout/layout_sizes_button_bar"/>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                   android:orientation="horizontal" android:layout_gravity="center_vertical">
