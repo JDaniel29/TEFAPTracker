@@ -274,7 +274,7 @@ public class FileManager {
         Button add1Button = (Button)dialog.findViewById(R.id.add1Commodity),
                 add23Button = (Button)dialog.findViewById(R.id.add23Commodity),
                 add45Button = (Button)dialog.findViewById(R.id.add45Commodity),
-                add67Button = (Button)dialog.findViewById(R.id.add67Commodity),
+                add67Button = (Button)dialog.findViewById(R.id.add6PlusCommodity),
                 removeButton = (Button)dialog.findViewById(R.id.removeCommodity);
 
         final ToggleButton toggle = (ToggleButton)dialog.findViewById(R.id.switchIncrementAndDecrementToggle);

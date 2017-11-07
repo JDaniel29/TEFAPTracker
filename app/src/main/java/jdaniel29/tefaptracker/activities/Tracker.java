@@ -62,10 +62,10 @@ public class Tracker extends AppCompatActivity {
 
         pickFileButton             = (Button)findViewById(R.id.pickFileButton);
         shareFileButton            = (Button)findViewById(R.id.shareFileButton);
-        allOneCommodityButton      = (Button)findViewById(R.id.add1AllCommodity);
-        allTwoThreeCommodityButton = (Button)findViewById(R.id.add23AllCommodity);
-        allFourFiveCommodityButton = (Button)findViewById(R.id.add45AllCommodity);
-        allSixSevenCommodityButton = (Button)findViewById(R.id.add67AllCommodity);
+        allOneCommodityButton      = (Button)findViewById(R.id.add1Commodity);
+        allTwoThreeCommodityButton = (Button)findViewById(R.id.add23Commodity);
+        allFourFiveCommodityButton = (Button)findViewById(R.id.add45Commodity);
+        allSixSevenCommodityButton = (Button)findViewById(R.id.add6PlusCommodity);
         //incrementCommodities = (Button)findViewById(R.id.incrementAllButton);
         //decrementCommodities = (Button) findViewById(R.id.decrementAllButton);
 
