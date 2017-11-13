@@ -32,6 +32,7 @@
     <string name="productName">Name:</string>
     <string name="perBox">Per Box:</string>
     <string name="minimumFamilySize">Minimum Family Size:</string>
+    <string name="currentlyCounting">Currently Counting?</string>
     <string name="default0">0</string>
 
 </resources>

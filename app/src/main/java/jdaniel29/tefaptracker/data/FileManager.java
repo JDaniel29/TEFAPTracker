@@ -54,20 +54,23 @@ public class FileManager {
      * Strings of the variable names that will be used so we know how to arrange our table values.
      */
     private static final String[] vars = {"sku", "productName", "distributionSizeOne", "distributionSizeTwoToThree",
-            "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox", "largeFamilyThreshold"};
+            "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox",
+            "largeFamilyThreshold", "currentlyCounting"};
 
     /*
      * The headers for readability by normal people. This is displayed in the CSV file.
      */
-    private static final String[] headers = {"SKU Number", "Product Name", "Size 1", "Size 2-3", "Size 4-5", "Size 6-7", "Total", "Per Box", "Large Family Threshold"};
+    private static final String[] headers = {"SKU Number", "Product Name", "Size 1", "Size 2-3", "Size 4-5",
+            "Size 6-7", "Total", "Per Box", "Large Family Threshold", "Currently Counting"};
 
     /*
      * This is how each piece of data in the csv file will be interpreted. The ConvertNullTos
      * are used to avoid null errors when parsing the data.
      */
-    private static final CellProcessor[] processors = {new ConvertNullTo(""), new ConvertNullTo(""), new ParseInt(), new ParseInt(),
+    private static final CellProcessor[] processors = {new ConvertNullTo(""), new ConvertNullTo(""),
+                                                        new ParseInt(), new ParseInt(),
                                                        new ParseInt(), new ParseInt(), new ParseInt(), new ParseInt(),
-                                                        new ParseEnum(Size.class)};
+                                                        new ParseEnum(Size.class), new ParseBool()};
 
     /*
      * This ArrayList will hold the commodities that the user is working with. They will be pulled
@@ -177,6 +180,11 @@ public class FileManager {
         */
         if(headers == oldVarsAndProcessors.oldHeaders1){ //Just to see if we have an old version of our commodities
             while ((currentCommodity = reader.read(Commodity.class, oldVarsAndProcessors.oldVars1, oldVarsAndProcessors.oldProcessors1)) != null){
+                System.out.println(currentCommodity.toString());
+                currentCommodities.add(currentCommodity);
+            }
+        } else if(headers == oldVarsAndProcessors.oldHeaders2) {
+            while ((currentCommodity = reader.read(Commodity.class, oldVarsAndProcessors.oldVars2, oldVarsAndProcessors.oldProcessors2)) != null) {
                 System.out.println(currentCommodity.toString());
                 currentCommodities.add(currentCommodity);
             }
@@ -290,6 +298,8 @@ public class FileManager {
                        nameEditText   = (EditText)dialog.findViewById(R.id.editNameTextBox),
                        perBoxEditText = (EditText)dialog.findViewById(R.id.editPerBoxTextBox);
 
+        final CheckBox currentCountingCheckBox = (CheckBox)dialog.findViewById(R.id.currentlyCountingCheckBox);
+
         String[] array = {"1", "2-3", "4-5", "6+"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), layout.simple_list_item_1, array);
         final Spinner minimumSizeSpinner = (Spinner)dialog.findViewById(R.id.editLargeFamilyMinimumSpinner);
@@ -298,6 +308,7 @@ public class FileManager {
         skuEditText.setText(commodity.getSku());
         nameEditText.setText(commodity.getProductName());
         perBoxEditText.setText(String.valueOf(commodity.getDistributionPerBox()));
+        currentCountingCheckBox.setChecked(Boolean.parseBoolean(commodity.getCurrentlyCounting()));
 
         switch (commodity.getLargeFamilyThreshold()){
             case ONE:
@@ -321,56 +332,65 @@ public class FileManager {
         add1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int multiplier = (toggle.isChecked()) ? 1 : -1;
-                commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + multiplier*commodity.getDistributionPerBox());
-                commodity.updateDistributionTotal();
-                commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
-                        "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
-                        "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
-                        "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
-                        "\nDistribution Total: " + commodity.getDistributionTotal());
+                System.out.println("BUTTON CLICKED");
+                if(currentCountingCheckBox.isChecked()) {
+                    int multiplier = (toggle.isChecked()) ? 1 : -1;
+                    commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + multiplier * commodity.getDistributionPerBox());
+                    commodity.updateDistributionTotal();
+                    commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
+                            "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
+                            "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
+                            "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
+                            "\nDistribution Total: " + commodity.getDistributionTotal());
+                }
             }
         });
 
         add23Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int multiplier = (toggle.isChecked()) ? 1 : -1;
-                commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + multiplier*commodity.getDistributionPerBox());
-                commodity.updateDistributionTotal();
-                commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
-                        "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
-                        "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
-                        "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
-                        "\nDistribution Total: " + commodity.getDistributionTotal());
+                if(currentCountingCheckBox.isChecked()) {
+                    int multiplier = (toggle.isChecked()) ? 1 : -1;
+                    commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + multiplier * commodity.getDistributionPerBox());
+                    commodity.updateDistributionTotal();
+                    commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
+                            "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
+                            "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
+                            "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
+                            "\nDistribution Total: " + commodity.getDistributionTotal());
+                }
             }
         });
 
         add45Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int multiplier = (toggle.isChecked()) ? 1 : -1;
-                commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + multiplier*commodity.getDistributionPerBox());
-                commodity.updateDistributionTotal();
-                commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
-                        "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
-                        "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
-                        "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
-                        "\nDistribution Total: " + commodity.getDistributionTotal());
+                if(currentCountingCheckBox.isChecked()) {
+                    int multiplier = (toggle.isChecked()) ? 1 : -1;
+                    commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + multiplier * commodity.getDistributionPerBox());
+                    commodity.updateDistributionTotal();
+                    commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
+                            "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
+                            "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
+                            "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
+                            "\nDistribution Total: " + commodity.getDistributionTotal());
+                }
             }
         });
 
         add67Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int multiplier = (toggle.isChecked()) ? 1 : -1;
-                commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + multiplier*commodity.getDistributionPerBox());
-                commodity.updateDistributionTotal();
-                commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
-                                                    "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
-                                                    "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
-                                                    "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
-                                                    "\nDistribution Total: " + commodity.getDistributionTotal());
+                if(currentCountingCheckBox.isChecked()) {
+                    int multiplier = (toggle.isChecked()) ? 1 : -1;
+                    commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + multiplier * commodity.getDistributionPerBox());
+                    commodity.updateDistributionTotal();
+                    commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
+                            "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
+                            "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
+                            "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
+                            "\nDistribution Total: " + commodity.getDistributionTotal());
+                }
             }
         });
 
@@ -389,6 +409,7 @@ public class FileManager {
                     commodity.setSku(skuEditText.getText().toString());
                     commodity.setProductName(nameEditText.getText().toString());
                     commodity.setDistributionPerBox(Integer.valueOf(perBoxEditText.getText().toString()));
+                    commodity.setCurrentlyCounting(currentCountingCheckBox.isChecked());
                     String familySize = minimumSizeSpinner.getSelectedItem().toString();
 
                     switch (familySize){
@@ -450,6 +471,7 @@ public class FileManager {
                 String SKU = ((EditText)(dialog.findViewById(R.id.skuTextBox))).getText().toString();
                 String commodityName = ((EditText)(dialog.findViewById(R.id.nameTextBox))).getText().toString();
                 Integer perBox = Integer.valueOf(((EditText)(dialog.findViewById(R.id.perBoxTextBox))).getText().toString());
+                Boolean currentCounting = ((CheckBox)(dialog.findViewById(R.id.currentlyCountingCheckBox))).isChecked();
 
                 Commodity commodity = new Commodity();
 
@@ -457,16 +479,16 @@ public class FileManager {
                 System.out.println(spinner.getSelectedItem().toString());
                 switch (spinner.getSelectedItem().toString()){
                     case "1":
-                        commodity = new Commodity(SKU, commodityName, perBox, ONE);
+                        commodity = new Commodity(SKU, commodityName, perBox, ONE, currentCounting);
                         break;
                     case "2-3":
-                        commodity = new Commodity(SKU, commodityName, perBox, TWOTOTHREE);
+                        commodity = new Commodity(SKU, commodityName, perBox, TWOTOTHREE, currentCounting);
                         break;
                     case "4-5":
-                        commodity = new Commodity(SKU, commodityName, perBox, FOURTOFIVE);
+                        commodity = new Commodity(SKU, commodityName, perBox, FOURTOFIVE, currentCounting);
                         break;
                     case "6+":
-                        commodity = new Commodity(SKU, commodityName, perBox, SIXPLUS);
+                        commodity = new Commodity(SKU, commodityName, perBox, SIXPLUS, currentCounting);
                         break;
                 }
 
@@ -492,31 +514,34 @@ public class FileManager {
 
 
         for(Commodity commodity : currentCommodities){
-            System.out.println("Category Increment" + category);
-            switch(category){
-                case 1:
-                    if(commodity.getLargeFamilyThreshold() == ONE) {
-                        commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + commodity.getDistributionPerBox());
-                    }
-                    break;
-                case 23:
-                    if(commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE){
-                        commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + commodity.getDistributionPerBox());
-                    }
-                    break;
-                case 45:
-                    if(commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE || commodity.getLargeFamilyThreshold() == FOURTOFIVE ) {
-                        commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + commodity.getDistributionPerBox());
-                    }
-                    break;
-                case 67:
-                    commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + commodity.getDistributionPerBox());
-                    break;
+            if(Boolean.parseBoolean(commodity.getCurrentlyCounting())) {
+                System.out.println("Category Increment" + category);
+                switch (category) {
+                    case 1:
+                        if (commodity.getLargeFamilyThreshold() == ONE) {
+                            commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + commodity.getDistributionPerBox());
+                        }
+                        break;
+                    case 23:
+                        if (commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE) {
+                            commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + commodity.getDistributionPerBox());
+                        }
+                        break;
+                    case 45:
+                        if (commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE || commodity.getLargeFamilyThreshold() == FOURTOFIVE) {
+                            commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + commodity.getDistributionPerBox());
+                        }
+                        break;
+                    case 67:
+                        commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + commodity.getDistributionPerBox());
+                        break;
+                }
+                commodity.updateDistributionTotal();
+                //System.out.println(commodity.toString());
+                //commodity.setDistributionTotal(commodity.getDistributionTotal() + commodity.getDistributionPerBox());
             }
-            commodity.updateDistributionTotal();
-            //System.out.println(commodity.toString());
-            //commodity.setDistributionTotal(commodity.getDistributionTotal() + commodity.getDistributionPerBox());
         }
+
 
 
         try {

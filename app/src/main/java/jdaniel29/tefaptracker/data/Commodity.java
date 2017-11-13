@@ -8,6 +8,7 @@ public class Commodity {
                 distributionSizeSixToSeven,
                 distributionTotal,
                 distributionPerBox;
+    private boolean currentlyCounting;
 
     private FileManager.Size largeFamilyThreshold;
 
@@ -15,30 +16,35 @@ public class Commodity {
     public Commodity(){
         sku                          = "UNASSIGNED";
         productName                  = "UNASSIGNED";
-        distributionSizeOne = 0;
-        distributionSizeTwoToThree = 0;
-        distributionSizeFourToFive = 0;
-        distributionSizeSixToSeven = 0;
+        distributionSizeOne          = 0;
+        distributionSizeTwoToThree   = 0;
+        distributionSizeFourToFive   = 0;
+        distributionSizeSixToSeven   = 0;
         distributionTotal            = 0;
         distributionPerBox           = 0;
         largeFamilyThreshold         = FileManager.Size.ONE;
+        currentlyCounting            = true;
     }
 
-    public Commodity(String sku, String productName, int distributionPerBox) {
+
+    public Commodity(String sku, String productName, int distributionPerBox, boolean currentlyCounting) {
         //this.sku = (sku1 == null) ? sku1 : "";
         //this.productName = (productName1 == null) ? productName1 : "";
 
         this.sku = (sku.length() == 0) ? " " : productName;
         this.productName = (productName.length() == 0) ? " " : productName;
         this.distributionPerBox = distributionPerBox;
+        this.currentlyCounting = currentlyCounting;
+
 
     }
 
-    public Commodity(String sku, String productName, int distributionPerBox, FileManager.Size largeFamilyThreshold) {
+    public Commodity(String sku, String productName, int distributionPerBox, FileManager.Size largeFamilyThreshold, boolean currentlyCounting) {
         this.sku = sku;
         this.productName = productName;
         this.distributionPerBox = distributionPerBox;
         this.largeFamilyThreshold = largeFamilyThreshold;
+        this.currentlyCounting = currentlyCounting;
     }
 
     @Override
@@ -129,5 +135,18 @@ public class Commodity {
     public void setLargeFamilyThreshold(FileManager.Size largeFamilyThreshold) {
         this.largeFamilyThreshold = largeFamilyThreshold;
     }
+
+    public String getCurrentlyCounting() {
+        if(this.currentlyCounting) {
+            return "true";
+        } else {
+            return "false";
+        }
+    }
+
+    public void setCurrentlyCounting(boolean currentlyCounting) {
+        this.currentlyCounting = currentlyCounting;
+    }
+
 
 }
