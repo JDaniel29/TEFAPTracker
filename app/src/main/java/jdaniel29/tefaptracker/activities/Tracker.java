@@ -1,24 +1,17 @@
 package jdaniel29.tefaptracker.activities;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.Commodity;
 import jdaniel29.tefaptracker.data.FileManager;
-
-import java.io.File;
 
 public class Tracker extends AppCompatActivity {
     Button pickFileButton, incrementCommodities, decrementCommodities;
@@ -48,7 +41,7 @@ public class Tracker extends AppCompatActivity {
         super.onPause();
         Commodity[] writeArray = new Commodity[FileManager.currentCommodities.size()];
         try {
-            FileManager.writeFile(FileManager.currentCommodities.toArray(writeArray));
+            FileManager.saveDistributionFile(FileManager.currentCommodities.toArray(writeArray));
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
@@ -91,7 +84,7 @@ public class Tracker extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                Uri documentURI = FileProvider.getUriForFile(view.getContext(), "com.JDaniel29.fileprovider", FileManager.currentFile);
+                Uri documentURI = FileProvider.getUriForFile(view.getContext(), "com.JDaniel29.fileprovider", FileManager.localSessionFile);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, documentURI);
                 shareIntent.setType("text/csv");
                 startActivity(shareIntent);

@@ -75,21 +75,21 @@ public class FileSelector extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(editText.getText().toString().contains(".csv")){
-                    FileManager.currentFile = new File(FileManager.currentFileDir, editText.getText().toString());
+                    FileManager.localSessionFile = new File(FileManager.currentFileDir, editText.getText().toString());
                 } else {
-                    FileManager.currentFile = new File(FileManager.currentFileDir, editText.getText().toString() + ".csv");
+                    FileManager.localSessionFile = new File(FileManager.currentFileDir, editText.getText().toString() + ".csv");
                 }
 
-                System.out.println(FileManager.currentFile.getPath() + " Succesfully Created");
+                System.out.println(FileManager.localSessionFile.getPath() + " Succesfully Created");
 
                 try {
-                    if(FileManager.currentFile == null) {
-                        FileManager.writeFile((Commodity) null);
+                    if(FileManager.localSessionFile == null) {
+                        FileManager.saveDistributionFile((Commodity) null);
                     } else {
                         Commodity[] writeArray = new Commodity[FileManager.currentCommodities.size()];
-                        FileManager.writeFile(FileManager.currentCommodities.toArray(writeArray));
+                        FileManager.saveDistributionFile(FileManager.currentCommodities.toArray(writeArray));
                     }
-                    FileManager.readFile();
+                    FileManager.readDistributionFile();
                 } catch (Exception e){
                     System.out.println(e.getMessage());
                 }
@@ -112,10 +112,10 @@ public class FileSelector extends AppCompatActivity {
         final File[] createdFiles = FileManager.currentFileDir.listFiles();
         String[] fileNames = new String[createdFiles.length];
 
-        if(FileManager.currentFile != null){
+        if(FileManager.localSessionFile != null){
             Commodity[] commodities = new Commodity[FileManager.currentCommodities.size()];
             try {
-                FileManager.writeFile(FileManager.currentCommodities.toArray(commodities));
+                FileManager.saveDistributionFile(FileManager.currentCommodities.toArray(commodities));
             } catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -130,10 +130,10 @@ public class FileSelector extends AppCompatActivity {
         fileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FileManager.currentFile = FileManager.currentFileDir.listFiles()[i];
-                System.out.println(FileManager.currentFile.getPath());
+                FileManager.localSessionFile = FileManager.currentFileDir.listFiles()[i];
+                System.out.println(FileManager.localSessionFile.getPath());
                 try {
-                    FileManager.readFile();
+                    FileManager.readDistributionFile();
                 }catch (Exception e){
                     System.out.println(e.getMessage());
                 }
