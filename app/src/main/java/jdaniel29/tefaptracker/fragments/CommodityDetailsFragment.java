@@ -1,4 +1,4 @@
-package jdaniel29.tefaptracker;
+package jdaniel29.tefaptracker.fragments;
 
 
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.Commodity;
 
 

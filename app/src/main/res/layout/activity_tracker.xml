@@ -8,66 +8,10 @@
         tools:context="jdaniel29.tefaptracker.activities.Tracker"
         android:layout_margin="4dp">
 
-    <ListView android:layout_width="match_parent" android:layout_height="0dp"
-              android:layout_weight=".6" android:id="@+id/screenListView"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:orientation="vertical"
+                android:id="@+id/trackerFragmentLayout" android:layout_weight=".7"/>
 
-
-    <ScrollView android:layout_width="match_parent" android:layout_height="0dp"
-                android:layout_weight=".4">
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
-                      android:orientation="vertical" android:layout_weight=".4">
-
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:gravity="top">
-
-                <ToggleButton android:layout_width="0.00dp" android:layout_height="wrap_content"
-                              android:layout_weight="0.5" android:id="@+id/AllCommoditiesIncrementAndDecrementToggle"
-                              android:textOn="@string/increment" android:textOff="@string/decrement" android:checked="true"/>
-
-                <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="@string/switchFile" android:layout_weight=".50"
-                        android:id="@+id/pickFileButton"/>
-
-                <Button android:layout_width="0dp" android:layout_height="wrap_content"
-                        android:text="@string/shareFile" android:layout_weight=".50"
-                        android:id="@+id/shareFileButton"/>
-
-
-            </LinearLayout>
-
-            <include layout="@layout/layout_sizes_button_bar"/>
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                          android:orientation="horizontal" android:layout_gravity="center_vertical">
-
-
-                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
-                          android:gravity="center_horizontal"
-                          android:layout_weight="0.25" android:text="@string/default0" android:id="@+id/totalOneCommodities"
-                          android:textSize="22sp" android:textColor="@android:color/black"/>
-
-                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
-                          android:gravity="center_horizontal"
-                          android:layout_weight="0.25" android:text="@string/default0" android:id="@+id/totalTwoThreeCommodities"
-                          android:textSize="22sp" android:textColor="@android:color/black"/>
-
-                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
-                          android:gravity="center_horizontal"
-                          android:layout_weight="0.25" android:text="@string/default0" android:id="@+id/totalFourFiveCommodities"
-                          android:textSize="22sp" android:textColor="@android:color/black"/>
-
-                <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
-                          android:gravity="center_horizontal"
-                          android:layout_weight="0.25" android:text="@string/default0" android:id="@+id/totalSixPlusCommodities"
-                          android:textSize="22sp" android:textColor="@android:color/black"/>
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-    </ScrollView>
-
+    <fragment android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight=".3"
+              android:id="@+id/buttonBarFragmentHolder" android:name="jdaniel29.tefaptracker.fragments.ButtonBarFragment"/>
 
 </LinearLayout>

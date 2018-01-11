@@ -2,14 +2,11 @@ package jdaniel29.tefaptracker.data;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Environment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import android.R.layout;
-import jdaniel29.tefaptracker.R;
+import jdaniel29.tefaptracker.fragments.CommodityDetailsFragment;
 import org.supercsv.cellprocessor.ConvertNullTo;
 import org.supercsv.cellprocessor.ParseBool;
 import org.supercsv.cellprocessor.ParseEnum;
@@ -25,8 +22,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-
-import static jdaniel29.tefaptracker.data.FileManager.Size.*;
 
 public class FileManager {
 
@@ -252,7 +247,7 @@ public class FileManager {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    showAddProductDialog(activity);
+                    //showAddProductDialog(activity);
                 }
             });
             return;
@@ -277,368 +272,16 @@ public class FileManager {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i < currentCommodities.size()) {
-                    showCommodityAlert(activity, currentCommodities.get((int) l));
+                    CommodityDetailsFragment detailsFragment = new CommodityDetailsFragment();
+                    detailsFragment.updateCommodity(currentCommodities.get((int) l));
+                    detailsFragment.show
+                    //showCommodityAlert(activity, currentCommodities.get((int) l));
                 } else {
-                    showAddProductDialog(activity);
+                    //showAddProductDialog(activity);
                 }
             }
         });
 
 
     }
-
-    private static void showCommodityAlert(final Activity activity, final Commodity commodity){
-        android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(activity);
-        alert.setTitle("Details for " + commodity.getProductName());
-
-        LayoutInflater inflater = activity.getLayoutInflater();
-        final View view = inflater.inflate(R.layout.layout_commodity_details, null);
-        alert.setView(view);
-
-        final AlertDialog dialog = alert.create();
-        dialog.show();
-
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
-                updateProductCounts(activity);
-            }
-        });
-
-        Button add1Button = (Button)dialog.findViewById(R.id.add1Commodity),
-                add23Button = (Button)dialog.findViewById(R.id.add23Commodity),
-                add45Button = (Button)dialog.findViewById(R.id.add45Commodity),
-                add67Button = (Button)dialog.findViewById(R.id.add6PlusCommodity),
-                removeButton = (Button)dialog.findViewById(R.id.removeCommodity);
-
-        final ToggleButton toggle = (ToggleButton)dialog.findViewById(R.id.switchIncrementAndDecrementToggle);
-
-        final TextView commodityDescriptionTextView = (TextView)dialog.findViewById(R.id.commodityDescriptionTextView);
-        commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
-                "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
-                "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
-                "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
-                "\nDistribution Total: " + commodity.getDistributionTotal());
-
-        final EditText skuEditText    = (EditText)dialog.findViewById(R.id.editskuTextBox),
-                       nameEditText   = (EditText)dialog.findViewById(R.id.editNameTextBox),
-                       perBoxEditText = (EditText)dialog.findViewById(R.id.editPerBoxTextBox);
-
-        final CheckBox currentCountingCheckBox = (CheckBox)dialog.findViewById(R.id.currentlyCountingCheckBox);
-
-        String[] array = {"1", "2-3", "4-5", "6+"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), layout.simple_list_item_1, array);
-        final Spinner minimumSizeSpinner = (Spinner)dialog.findViewById(R.id.editLargeFamilyMinimumSpinner);
-        minimumSizeSpinner.setAdapter(adapter);
-
-        skuEditText.setText(commodity.getSku());
-        nameEditText.setText(commodity.getProductName());
-        perBoxEditText.setText(String.valueOf(commodity.getDistributionPerBox()));
-        currentCountingCheckBox.setChecked(Boolean.parseBoolean(commodity.getCurrentlyCounting()));
-
-        switch (commodity.getLargeFamilyThreshold()){
-            case ONE:
-                minimumSizeSpinner.setSelection(0);
-                break;
-
-            case TWOTOTHREE:
-                minimumSizeSpinner.setSelection(1);
-                break;
-
-            case FOURTOFIVE:
-                minimumSizeSpinner.setSelection(2);
-                break;
-
-            case SIXPLUS:
-                minimumSizeSpinner.setSelection(3);
-                break;
-        }
-
-
-        add1Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("BUTTON CLICKED");
-                if(currentCountingCheckBox.isChecked()) {
-                    int multiplier = (toggle.isChecked()) ? 1 : -1;
-                    commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + multiplier * commodity.getDistributionPerBox());
-                    commodity.updateDistributionTotal();
-                    commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
-                            "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
-                            "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
-                            "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
-                            "\nDistribution Total: " + commodity.getDistributionTotal());
-                }
-            }
-        });
-
-        add23Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(currentCountingCheckBox.isChecked()) {
-                    int multiplier = (toggle.isChecked()) ? 1 : -1;
-                    commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + multiplier * commodity.getDistributionPerBox());
-                    commodity.updateDistributionTotal();
-                    commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
-                            "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
-                            "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
-                            "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
-                            "\nDistribution Total: " + commodity.getDistributionTotal());
-                }
-            }
-        });
-
-        add45Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(currentCountingCheckBox.isChecked()) {
-                    int multiplier = (toggle.isChecked()) ? 1 : -1;
-                    commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + multiplier * commodity.getDistributionPerBox());
-                    commodity.updateDistributionTotal();
-                    commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
-                            "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
-                            "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
-                            "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
-                            "\nDistribution Total: " + commodity.getDistributionTotal());
-                }
-            }
-        });
-
-        add67Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(currentCountingCheckBox.isChecked()) {
-                    int multiplier = (toggle.isChecked()) ? 1 : -1;
-                    commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + multiplier * commodity.getDistributionPerBox());
-                    commodity.updateDistributionTotal();
-                    commodityDescriptionTextView.setText("Distribution 1: " + commodity.getDistributionSizeOne() +
-                            "\nDistribution 2-3: " + commodity.getDistributionSizeTwoToThree() +
-                            "\nDistribution 4-5: " + commodity.getDistributionSizeFourToFive() +
-                            "\nDistribution 6-7: " + commodity.getDistributionSizeSixToSeven() +
-                            "\nDistribution Total: " + commodity.getDistributionTotal());
-                }
-            }
-        });
-
-        removeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                removeProduct(activity, commodity);
-                dialog.dismiss();
-            }
-        });
-
-        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                if(currentCommodities.contains(commodity)){ //We haven't edited the product, so we need to rewrite it
-                    commodity.setSku(skuEditText.getText().toString());
-                    commodity.setProductName(nameEditText.getText().toString());
-                    commodity.setDistributionPerBox(Integer.valueOf(perBoxEditText.getText().toString()));
-                    commodity.setCurrentlyCounting(currentCountingCheckBox.isChecked());
-                    String familySize = minimumSizeSpinner.getSelectedItem().toString();
-
-                    switch (familySize){
-                        case "1":
-                            commodity.setLargeFamilyThreshold(ONE);
-                            break;
-                        case "2-3":
-                            commodity.setLargeFamilyThreshold(TWOTOTHREE);
-                            break;
-                        case "4-5":
-                            commodity.setLargeFamilyThreshold(FOURTOFIVE);
-                            break;
-                        case "6+":
-                            commodity.setLargeFamilyThreshold(SIXPLUS);
-                            break;
-                    }
-
-                }
-            }
-        });
-
-        /*
-        builder.setTitle("Details about " + commodity.getProductName());
-        builder.setMessage(commodity.toString());
-        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });*/
-
-    }
-
-    private static void showAddProductDialog(final Activity activity){
-        android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(activity);
-        alert.setTitle("Add Commodity");
-
-        LayoutInflater inflater = activity.getLayoutInflater();
-        final View view = inflater.inflate(R.layout.layout_add_commodity, null);
-        alert.setView(view);
-
-
-
-        final AlertDialog dialog = alert.create();
-        dialog.show();
-
-        String[] array = {"1", "2-3", "4-5", "6+"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(), layout.simple_list_item_1, array);
-        final Spinner spinner = (Spinner)dialog.findViewById(R.id.largeFamilyMinimumSpinner);
-        spinner.setAdapter(adapter);
-
-        Button submitButton = (Button)dialog.findViewById(R.id.addProductConfirmation);
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                dialog.findViewById(R.id.skuTextBox);
-
-                String SKU = ((EditText)(dialog.findViewById(R.id.skuTextBox))).getText().toString();
-                String commodityName = ((EditText)(dialog.findViewById(R.id.nameTextBox))).getText().toString();
-                Integer perBox = Integer.valueOf(((EditText)(dialog.findViewById(R.id.perBoxTextBox))).getText().toString());
-                Boolean currentCounting = ((CheckBox)(dialog.findViewById(R.id.currentlyCountingCheckBox))).isChecked();
-
-                Commodity commodity = new Commodity();
-
-                //spinner.setSelection(0);
-                System.out.println(spinner.getSelectedItem().toString());
-                switch (spinner.getSelectedItem().toString()){
-                    case "1":
-                        commodity = new Commodity(SKU, commodityName, perBox, ONE, currentCounting);
-                        break;
-                    case "2-3":
-                        commodity = new Commodity(SKU, commodityName, perBox, TWOTOTHREE, currentCounting);
-                        break;
-                    case "4-5":
-                        commodity = new Commodity(SKU, commodityName, perBox, FOURTOFIVE, currentCounting);
-                        break;
-                    case "6+":
-                        commodity = new Commodity(SKU, commodityName, perBox, SIXPLUS, currentCounting);
-                        break;
-                }
-
-                System.out.println(commodity.toString());
-                addProduct(activity, commodity);
-            }
-        });
-    }
-
-    private static void addProduct(Activity activity, Commodity commodity){
-        currentCommodities.add(commodity);
-        System.out.println(currentCommodities.size());
-        listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
-    }
-
-    private static void removeProduct(Activity activity, Commodity commodity){
-        currentCommodities.remove(commodity);
-        System.out.println(currentCommodities.size());
-        listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
-    }
-
-    public static void incrementAllProducts(Activity activity, int category){
-
-
-        for(Commodity commodity : currentCommodities){
-            if(Boolean.parseBoolean(commodity.getCurrentlyCounting())) {
-                System.out.println("Category Increment" + category);
-                switch (category) {
-                    case 1:
-                        if (commodity.getLargeFamilyThreshold() == ONE) {
-                            commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() + commodity.getDistributionPerBox());
-                        }
-                        break;
-                    case 23:
-                        if (commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE) {
-                            commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() + commodity.getDistributionPerBox());
-                        }
-                        break;
-                    case 45:
-                        if (commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE || commodity.getLargeFamilyThreshold() == FOURTOFIVE) {
-                            commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() + commodity.getDistributionPerBox());
-                        }
-                        break;
-                    case 67:
-                        commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + commodity.getDistributionPerBox());
-                        break;
-                }
-                commodity.updateDistributionTotal();
-                //System.out.println(commodity.toString());
-                //commodity.setDistributionTotal(commodity.getDistributionTotal() + commodity.getDistributionPerBox());
-            }
-        }
-
-
-
-        try {
-            updateProductCounts(activity);
-            listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
-        }catch (Exception e){
-            Toast.makeText(activity, "Error Writing File", Toast.LENGTH_SHORT).show();
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static void decrementAllProducts(Activity activity, int category){
-        for(Commodity commodity : currentCommodities) {
-            switch (category) {
-                case 1:
-                    if (commodity.getLargeFamilyThreshold() == ONE) {
-                        commodity.setDistributionSizeOne(commodity.getDistributionSizeOne() - commodity.getDistributionPerBox());
-                    }
-                    break;
-                case 23:
-                    if (commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE) {
-                        commodity.setDistributionSizeTwoToThree(commodity.getDistributionSizeTwoToThree() - commodity.getDistributionPerBox());
-                    }
-                    break;
-                case 45:
-                    if (commodity.getLargeFamilyThreshold() == ONE || commodity.getLargeFamilyThreshold() == TWOTOTHREE || commodity.getLargeFamilyThreshold() == FOURTOFIVE) {
-                        commodity.setDistributionSizeFourToFive(commodity.getDistributionSizeFourToFive() - commodity.getDistributionPerBox());
-                    }
-                    break;
-                case 67:
-                    commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() - commodity.getDistributionPerBox());
-                    break;
-
-            }
-
-            commodity.updateDistributionTotal();
-        }
-
-
-        try {
-            updateProductCounts(activity);
-            listCommodities(activity, (ListView)activity.findViewById(R.id.screenListView));
-        }catch (Exception e){
-            Toast.makeText(activity, "Error Writing File", Toast.LENGTH_SHORT).show();
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static void updateProductCounts(Activity activity){
-        TextView totalOneCommoditiesTextView      = (TextView)activity.findViewById(R.id.totalOneCommodities),
-                 totalTwoThreeCommoditiesTextView = (TextView)activity.findViewById(R.id.totalTwoThreeCommodities),
-                 totalFourFiveCommoditiesTextView = (TextView)activity.findViewById(R.id.totalFourFiveCommodities),
-                 totalSixPlusCommoditiesTextView  = (TextView)activity.findViewById(R.id.totalSixPlusCommodities);
-
-        int totalOneCommodities      = 0,
-            totalTwoThreeCommodities = 0,
-            totalFourFiveCommodities = 0,
-            totalSixPlusCommodities  = 0;
-
-        for(Commodity commodity : currentCommodities){
-            totalOneCommodities      += commodity.getDistributionSizeOne();
-            totalTwoThreeCommodities += commodity.getDistributionSizeTwoToThree();
-            totalFourFiveCommodities += commodity.getDistributionSizeFourToFive();
-            totalSixPlusCommodities  += commodity.getDistributionSizeSixToSeven();
-        }
-
-        totalOneCommoditiesTextView.setText(String.valueOf(totalOneCommodities));
-        totalTwoThreeCommoditiesTextView.setText(String.valueOf(totalTwoThreeCommodities));
-        totalFourFiveCommoditiesTextView.setText(String.valueOf(totalFourFiveCommodities));
-        totalSixPlusCommoditiesTextView.setText(String.valueOf(totalSixPlusCommodities));
-    }
-
 }

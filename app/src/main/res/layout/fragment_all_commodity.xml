@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+              android:orientation="vertical"
+             tools:context="jdaniel29.tefaptracker.fragments.allCommodityFragment">
+
+    <ListView android:layout_width="match_parent" android:layout_height="0dp"
+     android:id="@+id/screenListView" android:layout_weight=".6"/>
+
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:gravity="top">
+
+                <ToggleButton android:layout_width="0.00dp" android:layout_height="wrap_content"
+                              android:layout_weight="0.5" android:id="@+id/AllCommoditiesIncrementAndDecrementToggle"
+                              android:textOn="@string/increment" android:textOff="@string/decrement" android:checked="true"/>
+
+                <Button android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:text="@string/switchFile" android:layout_weight=".50"
+                        android:id="@+id/pickFileButton"/>
+
+                <Button android:layout_width="0dp" android:layout_height="wrap_content"
+                        android:text="@string/shareFile" android:layout_weight=".50"
+                        android:id="@+id/shareFileButton"/>
+
+
+            </LinearLayout>
+
+</LinearLayout>

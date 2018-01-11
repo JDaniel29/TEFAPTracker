@@ -28,9 +28,6 @@ public class Tracker extends AppCompatActivity {
         setupXMLVariables();
 
 
-        FileManager.listCommodities(this, (ListView)findViewById(R.id.screenListView));
-        FileManager.updateProductCounts(this);
-
 
 
 

@@ -1,4 +1,4 @@
-package jdaniel29.tefaptracker;
+package jdaniel29.tefaptracker.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -9,11 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.Commodity;
 
 
 public class ButtonBarFragment extends Fragment {
     Button add1CommodityButton, add23CommodityButton, add45CommodityButton, add6PlusCommodityButton;
+    TextView totalOneCommodityTextView, total23CommodityTextView, total45CommodityTextView, total6PlusCommodityTextView;
 
     Commodity[] currentCommodities;
     int multiplier;
@@ -31,6 +35,11 @@ public class ButtonBarFragment extends Fragment {
         add23CommodityButton    = (Button)inflatedView.findViewById(R.id.add23Commodity);
         add45CommodityButton    = (Button)inflatedView.findViewById(R.id.add45Commodity);
         add6PlusCommodityButton = (Button)inflatedView.findViewById(R.id.add6PlusCommodity);
+
+        totalOneCommodityTextView   = (TextView)inflatedView.findViewById(R.id.totalOneCommodityTextView);
+        total23CommodityTextView    = (TextView)inflatedView.findViewById(R.id.total23CommodityTextView);
+        total45CommodityTextView    = (TextView)inflatedView.findViewById(R.id.total45CommodityTextView);
+        total6PlusCommodityTextView = (TextView)inflatedView.findViewById(R.id.total6PlusCommodityTextView);
 
         add1CommodityButton.setOnClickListener(new View.OnClickListener() {
             @Override
