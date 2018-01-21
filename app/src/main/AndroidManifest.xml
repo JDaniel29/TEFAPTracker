@@ -22,8 +22,6 @@
         </provider>
 
         <activity android:name=".activities.Tracker"/>
-        <activity android:name=".activities.FileSelector">
-        </activity>
         <activity android:name=".activities.HomeScreen">
         <intent-filter>
             <action android:name="android.intent.action.MAIN"/>

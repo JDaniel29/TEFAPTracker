@@ -23,11 +23,12 @@ public class Tracker extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tracker);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setupXMLVariables();
+        //setContentView(R.layout.activity_tracker);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //setupXMLVariables();
 
     }
+    /*
 
     @Override
     protected void onPause() {
@@ -74,7 +75,7 @@ public class Tracker extends AppCompatActivity {
         });
 
 
-    }
+    }*/
 
 
 

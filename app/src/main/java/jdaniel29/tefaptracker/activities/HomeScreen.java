@@ -21,14 +21,14 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_screen);
+        //setContentView(R.layout.activity_home_screen);
 
         setupXMLVariables();
     }
 
     private void setupXMLVariables() {
-        createNewFilebutton = (Button) findViewById(R.id.createNewFileButton);
-        selectExistingFileButton = (Button) findViewById(R.id.selectExistingFileButton);
+        //createNewFilebutton = (Button) findViewById(R.id.createNewFileButton);
+        //selectExistingFileButton = (Button) findViewById(R.id.selectExistingFileButton);
 
         createNewFilebutton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -26,7 +26,7 @@ public class CommodityDetailsFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflatedView = inflater.inflate(R.layout.fragment_commodity_details, container, false);
+        /*View inflatedView = inflater.inflate(R.layout.fragment_commodity_details, container, false);
 
         skuEditText         = (EditText) inflatedView.findViewById(R.id.editskuTextBox);
         productNameEditText = (EditText) inflatedView.findViewById(R.id.editNameTextBox);
@@ -36,7 +36,8 @@ public class CommodityDetailsFragment extends DialogFragment {
 
         currentlyCountingCheckBox = (CheckBox) inflatedView.findViewById(R.id.currentlyCountingCheckBox);
 
-        return inflatedView;
+        return inflatedView;*/
+        return null;
     }
 
     @Override
