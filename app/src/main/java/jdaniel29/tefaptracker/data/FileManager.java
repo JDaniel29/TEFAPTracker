@@ -1,7 +1,6 @@
 package jdaniel29.tefaptracker.data;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
 import android.os.Environment;
 import android.view.View;
 import android.widget.*;
@@ -35,7 +34,7 @@ public class FileManager {
      *
      * Notice how I said link to the file. A file is not technically created until we write a value.
      */
-    public static File localSessionFile, globalCommodityFile;
+    public static File currentFile, globalCommodityFile;
 
     /*
      * Strings of the variable names that will be used so we know how to arrange our table values.
@@ -69,8 +68,7 @@ public class FileManager {
      * This ArrayList will hold the commodities that the user is working with. They will be pulled
      * when the app starts and cleared for each new file pulled.
      */
-    public static ArrayList<Commodity> currentCommodities = new ArrayList<>(),
-                                       globalCommodities  = new ArrayList<>();
+    public static ArrayList<Commodity> currentCommodities = new ArrayList<>();
 
     /*
      * The different size thresholds that can be used for the commodities.
@@ -117,12 +115,12 @@ public class FileManager {
      * @throws Exception
      * A file IO Exception may occur just cause we are dealing with file I/O.
      */
-    public static void saveDistributionFile(@Nullable Commodity[] commodities) throws Exception{
+    public static void saveDistributionFile(Commodity ... commodities) throws Exception{
         ICsvBeanWriter writer; //The writer we are going to use
 
         //Append is set to false because its easier to start from scratch rather than try to compare what exists
         //and what doesn't.
-        writer = new CsvBeanWriter(new FileWriter(localSessionFile, false), CsvPreference.STANDARD_PREFERENCE);
+        writer = new CsvBeanWriter(new FileWriter(currentFile, false), CsvPreference.STANDARD_PREFERENCE);
         writer.writeHeader(localCommodityHeaders);
 
 
@@ -139,20 +137,6 @@ public class FileManager {
     }
 
     /**
-     * This method is pretty much the same as the one above just it will only write one commodity
-     * instead of multiple commodities.
-     * @param commodity
-     * The comoodity to be written to the file.
-     *
-     * @throws Exception
-     * A file IO Exception may occur just cause we are dealing with file I/O.
-     */
-    public static void saveDistributionFile(Commodity commodity) throws Exception{
-        Commodity[] commodities = {commodity};
-        saveDistributionFile(commodities);
-    }
-
-    /**
      * This method will read the file and store the current commodities in the arrayList. If there are no commodities,
      * then we will simply have an empty arraylist.
      *
@@ -160,7 +144,7 @@ public class FileManager {
      * A file IO Exception may occur just cause we are dealing with file I/O. (Seem to notice a trend here)
      */
     public static void readDistributionFile() throws Exception{
-        ICsvBeanReader reader = new CsvBeanReader(new FileReader(localSessionFile), CsvPreference.STANDARD_PREFERENCE);
+        ICsvBeanReader reader = new CsvBeanReader(new FileReader(currentFile), CsvPreference.STANDARD_PREFERENCE);
 
         Commodity currentCommodity;
 
@@ -193,32 +177,6 @@ public class FileManager {
 
     }
 
-    public static void saveToGlobalCommodities() throws Exception{
-        ICsvBeanWriter writer = new CsvBeanWriter(new FileWriter(globalCommodityFile, false), CsvPreference.STANDARD_PREFERENCE);
-
-        writer.writeHeader(globalCommodityHeaders);
-
-        for(Commodity commodity : globalCommodities){
-            writer.write(commodity, globalCommodityVars, globalCommodityProcessors);
-        }
-
-        writer.close();
-    }
-
-    public static void readToGlobalCommodities() throws Exception{
-        ICsvBeanReader reader = new CsvBeanReader(new FileReader(globalCommodityFile), CsvPreference.STANDARD_PREFERENCE);
-
-        reader.getHeader(true);
-
-        Commodity currentCommodity;
-
-        while((currentCommodity = reader.read(Commodity.class, globalCommodityVars, globalCommodityProcessors)) != null){
-            globalCommodities.add(currentCommodity);
-        }
-
-        reader.close();
-
-    }
 
     /**
      * This method takes the commodities that are in the arraylist and lists them in the
@@ -231,14 +189,6 @@ public class FileManager {
      * The listview we are working with.
      */
     public static void listCommodities(final Activity activity, ListView listView){
-        /*
-        try {
-            FileManager.readFile();
-        } catch (Exception e){
-            Toast.makeText(activity, "Error Reading File", Toast.LENGTH_SHORT).show();
-            System.out.println(e.getMessage());
-            return;
-        }*/
         //If there are no commodities, we only need to have one listing saying to add a new product
         if(currentCommodities == null){
             String[] commodityNames = {"Add New Product"};
@@ -274,7 +224,7 @@ public class FileManager {
                 if(i < currentCommodities.size()) {
                     CommodityDetailsFragment detailsFragment = new CommodityDetailsFragment();
                     detailsFragment.updateCommodity(currentCommodities.get((int) l));
-                    detailsFragment.show
+                    //detailsFragment.show
                     //showCommodityAlert(activity, currentCommodities.get((int) l));
                 } else {
                     //showAddProductDialog(activity);

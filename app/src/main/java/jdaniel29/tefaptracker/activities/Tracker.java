@@ -12,13 +12,13 @@ import android.widget.*;
 import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.Commodity;
 import jdaniel29.tefaptracker.data.FileManager;
+import jdaniel29.tefaptracker.fragments.ButtonBarFragment;
 
 public class Tracker extends AppCompatActivity {
-    Button pickFileButton, incrementCommodities, decrementCommodities;
+    Button changeFileButton, shareFileButton;
 
-    Button allOneCommodityButton, allTwoThreeCommodityButton, allFourFiveCommodityButton,
-            allSixSevenCommodityButton, shareFileButton;
-    ToggleButton allCommoditiesToggle;
+    ListView commodityListView;
+    ButtonBarFragment buttonBarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +26,6 @@ public class Tracker extends AppCompatActivity {
         setContentView(R.layout.activity_tracker);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setupXMLVariables();
-
-
-
-
 
     }
 
@@ -47,33 +43,22 @@ public class Tracker extends AppCompatActivity {
     private void setupXMLVariables(){
         final Activity activity = this;
 
-        allCommoditiesToggle = (ToggleButton)findViewById(R.id.AllCommoditiesIncrementAndDecrementToggle);
+        buttonBarFragment = (ButtonBarFragment)getSupportFragmentManager().findFragmentById(R.id.buttonBarFragmentHolder);
+        buttonBarFragment.changeCommodity(FileManager.currentCommodities.toArray(new Commodity[FileManager.currentCommodities.size()]));
 
 
-        pickFileButton             = (Button)findViewById(R.id.pickFileButton);
+
+        commodityListView = new ListView(this);
+        commodityListView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1));
+
+        changeFileButton           = (Button)findViewById(R.id.changeFileButton);
         shareFileButton            = (Button)findViewById(R.id.shareFileButton);
-        allOneCommodityButton      = (Button)findViewById(R.id.add1Commodity);
-        allTwoThreeCommodityButton = (Button)findViewById(R.id.add23Commodity);
-        allFourFiveCommodityButton = (Button)findViewById(R.id.add45Commodity);
-        allSixSevenCommodityButton = (Button)findViewById(R.id.add6PlusCommodity);
-        //incrementCommodities = (Button)findViewById(R.id.incrementAllButton);
-        //decrementCommodities = (Button) findViewById(R.id.decrementAllButton);
 
-        pickFileButton.setOnClickListener(new View.OnClickListener() {
+        changeFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), FileSelector.class);
                 startActivity(intent);
-            }
-        });
-        allOneCommodityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(allCommoditiesToggle.isChecked()){
-                    FileManager.incrementAllProducts(activity, 1);
-                } else {
-                    FileManager.decrementAllProducts(activity, 1);
-                }
             }
         });
 
@@ -81,54 +66,12 @@ public class Tracker extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                Uri documentURI = FileProvider.getUriForFile(view.getContext(), "com.JDaniel29.fileprovider", FileManager.localSessionFile);
+                Uri documentURI = FileProvider.getUriForFile(view.getContext(), "com.JDaniel29.fileprovider", FileManager.currentFile);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, documentURI);
                 shareIntent.setType("text/csv");
                 startActivity(shareIntent);
             }
         });
-        allTwoThreeCommodityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(allCommoditiesToggle.isChecked()){
-                    FileManager.incrementAllProducts(activity, 23);
-                } else {
-                    FileManager.decrementAllProducts(activity, 23);
-                }
-            }
-        });
-        allFourFiveCommodityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(allCommoditiesToggle.isChecked()){
-                    FileManager.incrementAllProducts(activity, 45);
-                } else {
-                    FileManager.decrementAllProducts(activity, 45);
-                }
-            }
-        });
-        allSixSevenCommodityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(allCommoditiesToggle.isChecked()){
-                    FileManager.incrementAllProducts(activity, 67);
-                } else {
-                    FileManager.decrementAllProducts(activity, 67);
-                }
-            }
-        });
-        /*
-        incrementCommodities.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { FileManager.incrementAllProducts(activity);
-            }
-        });
-        decrementCommodities.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) { FileManager.decrementAllProducts(activity);
-            }
-        });
-        */
 
 
     }

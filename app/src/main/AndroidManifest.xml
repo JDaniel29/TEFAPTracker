@@ -22,15 +22,15 @@
         </provider>
 
         <activity android:name=".activities.Tracker"/>
-
         <activity android:name=".activities.FileSelector">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
+        <activity android:name=".activities.HomeScreen">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
 
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>

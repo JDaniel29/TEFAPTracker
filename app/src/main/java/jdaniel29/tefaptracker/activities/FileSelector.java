@@ -75,15 +75,15 @@ public class FileSelector extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(editText.getText().toString().contains(".csv")){
-                    FileManager.localSessionFile = new File(FileManager.currentFileDir, editText.getText().toString());
+                    FileManager.currentFile = new File(FileManager.currentFileDir, editText.getText().toString());
                 } else {
-                    FileManager.localSessionFile = new File(FileManager.currentFileDir, editText.getText().toString() + ".csv");
+                    FileManager.currentFile = new File(FileManager.currentFileDir, editText.getText().toString() + ".csv");
                 }
 
-                System.out.println(FileManager.localSessionFile.getPath() + " Succesfully Created");
+                System.out.println(FileManager.currentFile.getPath() + " Succesfully Created");
 
                 try {
-                    if(FileManager.localSessionFile == null) {
+                    if(FileManager.currentFile == null) {
                         FileManager.saveDistributionFile((Commodity) null);
                     } else {
                         Commodity[] writeArray = new Commodity[FileManager.currentCommodities.size()];
@@ -112,7 +112,7 @@ public class FileSelector extends AppCompatActivity {
         final File[] createdFiles = FileManager.currentFileDir.listFiles();
         String[] fileNames = new String[createdFiles.length];
 
-        if(FileManager.localSessionFile != null){
+        if(FileManager.currentFile != null){
             Commodity[] commodities = new Commodity[FileManager.currentCommodities.size()];
             try {
                 FileManager.saveDistributionFile(FileManager.currentCommodities.toArray(commodities));
@@ -130,8 +130,8 @@ public class FileSelector extends AppCompatActivity {
         fileListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FileManager.localSessionFile = FileManager.currentFileDir.listFiles()[i];
-                System.out.println(FileManager.localSessionFile.getPath());
+                FileManager.currentFile = FileManager.currentFileDir.listFiles()[i];
+                System.out.println(FileManager.currentFile.getPath());
                 try {
                     FileManager.readDistributionFile();
                 }catch (Exception e){

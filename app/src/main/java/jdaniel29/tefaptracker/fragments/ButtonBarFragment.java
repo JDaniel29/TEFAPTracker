@@ -11,25 +11,33 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.Commodity;
+
 
 
 public class ButtonBarFragment extends Fragment {
     Button add1CommodityButton, add23CommodityButton, add45CommodityButton, add6PlusCommodityButton;
     TextView totalOneCommodityTextView, total23CommodityTextView, total45CommodityTextView, total6PlusCommodityTextView;
+    ToggleButton incrementAndDecrementToggle;
 
     Commodity[] currentCommodities;
+    Mode mode;
     int multiplier;
 
-    public ButtonBarFragment() {
-        multiplier=1;
+    public enum Mode{
+        SINGLE, MULTIPLE;
+    }
+
+    public ButtonBarFragment(){
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflatedView = inflater.inflate(R.layout.fragment_button_bar, container, false);
+        /*View inflatedView = inflater.inflate(R.layout.fragment_button_bar, container, false);
 
         add1CommodityButton     = (Button)inflatedView.findViewById(R.id.add1Commodity);
         add23CommodityButton    = (Button)inflatedView.findViewById(R.id.add23Commodity);
@@ -40,6 +48,23 @@ public class ButtonBarFragment extends Fragment {
         total23CommodityTextView    = (TextView)inflatedView.findViewById(R.id.total23CommodityTextView);
         total45CommodityTextView    = (TextView)inflatedView.findViewById(R.id.total45CommodityTextView);
         total6PlusCommodityTextView = (TextView)inflatedView.findViewById(R.id.total6PlusCommodityTextView);
+
+        incrementAndDecrementToggle = (ToggleButton)inflatedView.findViewById(R.id.countingToggle);
+*/
+        return null;
+    }
+
+    public void changeMultiplier(int newMultiplier){
+        multiplier = newMultiplier;
+
+
+    }
+
+    public void changeCommodity(Commodity ... commodities){
+        currentCommodities = commodities;
+    }
+
+    private void updateButtons(){
 
         add1CommodityButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,16 +105,6 @@ public class ButtonBarFragment extends Fragment {
                 }
             }
         });
-
-        return inflatedView;
-    }
-
-    public void changeMultiplier(int newMultiplier){
-        multiplier = newMultiplier;
-    }
-
-    public void changeCommodity(Commodity[] commodities){
-        currentCommodities = commodities;
     }
 }
 
