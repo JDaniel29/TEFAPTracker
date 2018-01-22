@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class FileManager {
+    CommodityAdapter adapter;
 
     //External Public Directory Home for the Files
     public static File currentFileDir = new File(Environment.getExternalStorageDirectory() +
@@ -43,14 +44,12 @@ public class FileManager {
             "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox",
             "largeFamilyThreshold", "currentlyCounting"};
 
-    private static final String[] globalCommodityVars = {"sku", "productName", "distributionPerBox", "largeFamilyThreshold"};
     /*
      * The localCommodityHeaders for readability by normal people. This is displayed in the CSV file.
      */
     private static final String[] localCommodityHeaders = {"SKU Number", "Product Name", "Size 1", "Size 2-3", "Size 4-5",
             "Size 6-7", "Total", "Per Box", "Large Family Threshold", "Currently Counting"};
 
-    private static final String[] globalCommodityHeaders = {"SKU Number", "Product Name", "Distribution Size", "Large Family"};
 
     /*
      * This is how each piece of data in the csv file will be interpreted. The ConvertNullTos
@@ -60,9 +59,6 @@ public class FileManager {
                                                         new ParseInt(), new ParseInt(),
                                                        new ParseInt(), new ParseInt(), new ParseInt(), new ParseInt(),
                                                         new ParseEnum(Size.class), new ParseBool()};
-
-    private static final CellProcessor[] globalCommodityProcessors = {new ConvertNullTo(""), new ConvertNullTo(""),
-                                                                    new ParseInt(), new ParseEnum(Size.class)};
 
     /*
      * This ArrayList will hold the commodities that the user is working with. They will be pulled
@@ -100,8 +96,6 @@ public class FileManager {
 
         }
 
-        globalCommodityFile = new File(currentFileDir, "allCommodities.csv");
-
 
     }
 
@@ -109,13 +103,11 @@ public class FileManager {
      * This takes an array of commodities and writes them with the localCommodityProcessors. If there are no commodities to write
      * only the header is written.
      *
-     * @param commodities
-     * The commodities to be written to the file. Can be null if there is nothing to write.
      *
      * @throws Exception
      * A file IO Exception may occur just cause we are dealing with file I/O.
      */
-    public static void saveDistributionFile(Commodity ... commodities) throws Exception{
+    public static void writeFile() throws Exception{
         ICsvBeanWriter writer; //The writer we are going to use
 
         //Append is set to false because its easier to start from scratch rather than try to compare what exists
@@ -124,12 +116,12 @@ public class FileManager {
         writer.writeHeader(localCommodityHeaders);
 
 
-        if(commodities == null){
+        if(currentCommodities.size() == 0){
             writer.close();
             return;
         }
 
-        for(Commodity commodity : commodities){
+        for(Commodity commodity : currentCommodities){
             writer.write(commodity, localCommodityVars, localCommodityProcessors);
         }
 

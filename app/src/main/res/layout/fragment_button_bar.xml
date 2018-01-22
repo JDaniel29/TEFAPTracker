@@ -3,13 +3,14 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:id="@+id/sizesButtonBar">
+              android:id="@+id/sizesButtonBar"
+                android:weightSum="1">
 
     <ToggleButton android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:id="@+id/countingToggle"
-                android:textOff="@string/increment" android:textOn="@string/decrement"/>
+                android:id="@+id/countingToggle" android:layout_weight=".33"
+                android:textOff="@string/decrement" android:textOn="@string/increment"/>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_weight=".33">
 
         <Button android:layout_width="0.00dp" android:layout_height="wrap_content"
                 android:layout_weight="0.25" android:text="@string/size1" android:id="@+id/add1CommodityButton"/>
@@ -26,25 +27,27 @@
     </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal">
+                  android:orientation="horizontal" android:layout_weight=".33">
 
         <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:id="@+id/totalOneCommodityTextView"  android:gravity="center_horizontal"
+                  android:layout_weight="0.25" android:id="@+id/totalOneCommodityTextView"  android:gravity="center_horizontal"
                   android:textColor="@android:color/black" android:textSize="20sp"/>
 
         <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:id="@+id/total23CommodityTextView" android:gravity="center_horizontal"
+                  android:layout_weight="0.25" android:id="@+id/total23CommodityTextView" android:gravity="center_horizontal"
                   android:textColor="@android:color/black" android:textSize="20sp"/>
 
         <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:id="@+id/total45CommodityTextView" android:gravity="center_horizontal"
+                  android:layout_weight="0.25" android:id="@+id/total45CommodityTextView" android:gravity="center_horizontal"
                   android:textColor="@android:color/black" android:textSize="20sp"/>
 
         <TextView android:layout_width="0.00dp" android:layout_height="wrap_content"
-                android:layout_weight="0.25" android:id="@+id/total6PlusCommodityTextView" android:gravity="center_horizontal"
+                  android:layout_weight="0.25" android:id="@+id/total6PlusCommodityTextView" android:gravity="center_horizontal"
                   android:textColor="@android:color/black" android:textSize="20sp"/>
 
     </LinearLayout>
+
+
 
 
 </LinearLayout>

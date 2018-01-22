@@ -1,8 +1,13 @@
 package jdaniel29.tefaptracker.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,14 +26,15 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_home_screen);
+        setContentView(R.layout.activity_home_screen);
 
+        checkPermissions();
         setupXMLVariables();
     }
 
     private void setupXMLVariables() {
-        //createNewFilebutton = (Button) findViewById(R.id.createNewFileButton);
-        //selectExistingFileButton = (Button) findViewById(R.id.selectExistingFileButton);
+        createNewFilebutton = (Button) findViewById(R.id.createNewFileButton);
+        selectExistingFileButton = (Button) findViewById(R.id.selectExistingFileButton);
 
         createNewFilebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +74,14 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FileManager.currentFile = FileManager.currentFileDir.listFiles()[which];
+                try {
+                    FileManager.readDistributionFile();
 
-                Intent intent = new Intent(workingContext, Tracker.class);
-                startActivity(intent);
+                    Intent intent = new Intent(workingContext, Tracker.class);
+                    startActivity(intent);
+                } catch (Exception e){
+                    Toast.makeText(workingContext, "Error Reading File", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -101,11 +112,22 @@ public class HomeScreen extends AppCompatActivity {
         builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(editText.getText().toString().contains(".csv")){
+                if(!editText.getText().toString().contains(".csv")){
                     FileManager.currentFile = new File(FileManager.currentFileDir, editText.getText().toString() + ".csv");
                 } else {
                     FileManager.currentFile = new File(FileManager.currentFileDir, editText.getText().toString());
                 }
+
+                try {
+                    FileManager.writeFile();
+                    System.out.println(FileManager.currentFileDir.getPath());
+                    openTrackerActivity();
+                } catch (Exception e){
+                    Toast.makeText(HomeScreen.this, "Error Writing File", Toast.LENGTH_SHORT).show();
+                    System.out.println(e.getMessage());
+                }
+
+
 
             }
         });
@@ -116,5 +138,28 @@ public class HomeScreen extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+        builder.show();
+    }
+
+    private void openTrackerActivity(){
+        Intent intent = new Intent(this, Tracker.class);
+        startActivity(intent);
+    }
+
+    private void checkPermissions(){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        } else {
+            FileManager.setupDirectory();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            FileManager.setupDirectory();
+        } else {
+            finishAffinity();
+        }
     }
 }
