@@ -18,10 +18,16 @@ import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.FileManager;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class HomeScreen extends AppCompatActivity {
 
     Button createNewFilebutton, selectExistingFileButton;
+
+    TextView licenseTextView;
+    String licenseText = "This app \"TEFAP Tracker\" is the property of Mr. Jonathan Daniel. " +
+            "Use of TEFAP Tracker is not allowed unless explicit, written permission is given by Mr. Daniel himself. By using this app," +
+            "you agree to these terms and recognize Mr. Daniel as the owner and creator of the app.";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +38,19 @@ public class HomeScreen extends AppCompatActivity {
         setupXMLVariables();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FileManager.currentFile = null;
+        FileManager.currentCommodities = new ArrayList<>();
+    }
+
     private void setupXMLVariables() {
         createNewFilebutton = (Button) findViewById(R.id.createNewFileButton);
         selectExistingFileButton = (Button) findViewById(R.id.selectExistingFileButton);
+
+        licenseTextView = findViewById(R.id.licenseTextView);
+        licenseTextView.setText(licenseText);
 
         createNewFilebutton.setOnClickListener(new View.OnClickListener() {
             @Override

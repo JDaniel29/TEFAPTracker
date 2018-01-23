@@ -57,6 +57,10 @@ public class CommodityDetailsFragment extends Fragment {
         minimumFamilySizeSpinner = view.findViewById(R.id.editLargeFamilyMinimumSpinner);
         currentlyCountingCheckBox = view.findViewById(R.id.currentlyCountingCheckBox);
 
+        String[] array = {"1", "2-3", "4-5", "6+"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, array);
+        minimumFamilySizeSpinner.setAdapter(adapter);
+
         if(currentCommodityIndex != null) {
             skuEditText.setText(FileManager.currentCommodities.get(currentCommodityIndex).getSku());
             productNameEditText.setText(FileManager.currentCommodities.get(currentCommodityIndex).getProductName());

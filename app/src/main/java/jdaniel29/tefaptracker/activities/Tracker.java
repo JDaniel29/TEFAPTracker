@@ -54,19 +54,29 @@ public class Tracker extends AppCompatActivity {
 
     }
 
-    /*
-
-        @Override
-        protected void onPause() {
-            super.onPause();
-            Commodity[] writeArray = new Commodity[FileManager.currentCommodities.size()];
-            try {
-                FileManager.saveDistributionFile(FileManager.currentCommodities.toArray(writeArray));
-            } catch (Exception e){
-                System.out.println(e.getMessage());
-            }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try{
+            FileManager.writeFile();
+        } catch (Exception e){
+            Toast.makeText(this, "Error Saving File", Toast.LENGTH_SHORT).show();
         }
-           */
+    }
+
+    /*
+    
+            @Override
+            protected void onPause() {
+                super.onPause();
+                Commodity[] writeArray = new Commodity[FileManager.currentCommodities.size()];
+                try {
+                    FileManager.saveDistributionFile(FileManager.currentCommodities.toArray(writeArray));
+                } catch (Exception e){
+                    System.out.println(e.getMessage());
+                }
+            }
+               */
     public void setupXMLVariables(){
         final Activity activity = this;
 
