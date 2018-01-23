@@ -59,6 +59,8 @@ public class AllCommodityDisplayFragment extends Fragment {
         adapter = new CommodityAdapter(getContext(), FileManager.currentCommodities);
         commodityListView.setAdapter(adapter);
 
+        FileManager.adapter = adapter;
+
         commodityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -78,6 +80,13 @@ public class AllCommodityDisplayFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        System.out.println("onResume() ran");
     }
 
     public CommodityAdapter getAdapter(){

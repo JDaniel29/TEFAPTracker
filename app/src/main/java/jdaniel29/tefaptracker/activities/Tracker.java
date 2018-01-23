@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.*;
 import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.Commodity;
+import jdaniel29.tefaptracker.data.CommodityAdapter;
 import jdaniel29.tefaptracker.data.FileManager;
 import jdaniel29.tefaptracker.fragments.AllCommodityDisplayFragment;
 import jdaniel29.tefaptracker.util.ActivityConstants;
@@ -28,7 +29,7 @@ public class Tracker extends AppCompatActivity {
 
     ToggleButton toggleButton;
 
-    ListView commodityListView;
+    CommodityAdapter adapter;
 
     int multiplier;
 
@@ -66,7 +67,7 @@ public class Tracker extends AppCompatActivity {
             }
         }
            */
-    private void setupXMLVariables(){
+    public void setupXMLVariables(){
         final Activity activity = this;
 
         allCommodityDisplayFragment = new AllCommodityDisplayFragment();
@@ -124,7 +125,7 @@ public class Tracker extends AppCompatActivity {
     }
 
     public void setupButtonBarForMultiple(){
-
+        //adapter = new CommodityAdapter(this, FileManager.currentCommodities);
         add1CommodityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,7 +136,8 @@ public class Tracker extends AppCompatActivity {
                     }
                 }
 
-                allCommodityDisplayFragment.getAdapter().notifyDataSetChanged();
+
+                FileManager.adapter.notifyDataSetChanged();
                 updateTextView(true, null);
             }
         });
@@ -151,7 +153,7 @@ public class Tracker extends AppCompatActivity {
                     }
                 }
 
-                allCommodityDisplayFragment.getAdapter().notifyDataSetChanged();
+                FileManager.adapter.notifyDataSetChanged();
                 updateTextView(true, null);
             }
         });
@@ -166,7 +168,7 @@ public class Tracker extends AppCompatActivity {
                     }
                 }
 
-                allCommodityDisplayFragment.getAdapter().notifyDataSetChanged();
+                FileManager.adapter.notifyDataSetChanged();
                 updateTextView(true, null);
             }
         });
@@ -181,7 +183,7 @@ public class Tracker extends AppCompatActivity {
                     }
                 }
 
-                allCommodityDisplayFragment.getAdapter().notifyDataSetChanged();
+                FileManager.adapter.notifyDataSetChanged();
                 updateTextView(true, null);
             }
         });
@@ -206,7 +208,7 @@ public class Tracker extends AppCompatActivity {
                     FileManager.currentCommodities.set(index, commodity);
                 }
 
-                allCommodityDisplayFragment.getAdapter().notifyDataSetChanged();
+                FileManager.adapter.notifyDataSetChanged();
                 updateTextView(false, index);
             }
         });
@@ -220,7 +222,7 @@ public class Tracker extends AppCompatActivity {
                     commodity.updateDistributionTotal();
                     FileManager.currentCommodities.set(index, commodity);
                 }
-                allCommodityDisplayFragment.getAdapter().notifyDataSetChanged();
+                FileManager.adapter.notifyDataSetChanged();
                 updateTextView(false, index);
             }
         });
@@ -233,7 +235,7 @@ public class Tracker extends AppCompatActivity {
                     FileManager.currentCommodities.set(index, commodity);
                     commodity.updateDistributionTotal();
                 }
-                allCommodityDisplayFragment.getAdapter().notifyDataSetChanged();
+                FileManager.adapter.notifyDataSetChanged();
                 updateTextView(false, index);
             }
         });
@@ -246,7 +248,7 @@ public class Tracker extends AppCompatActivity {
                     FileManager.currentCommodities.set(index, commodity);
                     commodity.updateDistributionTotal();
                 }
-                allCommodityDisplayFragment.getAdapter().notifyDataSetChanged();
+                FileManager.adapter.notifyDataSetChanged();
                 updateTextView(false, index);
             }
         });
@@ -283,6 +285,9 @@ public class Tracker extends AppCompatActivity {
         totalSixPlusTextView  .setText(String.valueOf(totalSixPlus));
     }
 
+    public void setAdapter(CommodityAdapter commodityAdapter){
+        adapter = commodityAdapter;
+    }
 
 
 }

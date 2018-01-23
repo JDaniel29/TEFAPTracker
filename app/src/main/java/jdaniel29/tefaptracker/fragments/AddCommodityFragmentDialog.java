@@ -17,6 +17,8 @@ import jdaniel29.tefaptracker.data.Commodity;
 import jdaniel29.tefaptracker.data.CommodityAdapter;
 import jdaniel29.tefaptracker.data.FileManager;
 
+import static jdaniel29.tefaptracker.data.FileManager.Size.*;
+
 
 public class AddCommodityFragmentDialog extends DialogFragment {
     EditText skuEditText, productNameEditText, perBoxEditText;
@@ -48,6 +50,7 @@ public class AddCommodityFragmentDialog extends DialogFragment {
         perBoxEditText      = (EditText) inflatedView.findViewById(R.id.editPerBoxTextBox);
 
         minimumFamilySizeSpinner = (Spinner) inflatedView.findViewById(R.id.editLargeFamilyMinimumSpinner);
+
 
         currentlyCountingCheckBox = (CheckBox) inflatedView.findViewById(R.id.currentlyCountingCheckBox);
 
@@ -90,12 +93,17 @@ public class AddCommodityFragmentDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.fragment_add_commodity_dialog, null);
         builder.setView(v);
 
+        minimumFamilySizeSpinner = v.findViewById(R.id.editLargeFamilyMinimumSpinner);
+
+        String[] array = {"1", "2-3", "4-5", "6+"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, array);
+        minimumFamilySizeSpinner.setAdapter(adapter);
 
 
         //productNameEditText.setText("UFDBUFSB");
@@ -108,9 +116,36 @@ public class AddCommodityFragmentDialog extends DialogFragment {
                 skuEditText = ((AlertDialog)dialog).findViewById(R.id.editskuTextBox);
                 productNameEditText = ((AlertDialog)dialog).findViewById(R.id.editNameTextBox);
                 perBoxEditText = ((AlertDialog)dialog).findViewById(R.id.editPerBoxTextBox);
-
                 minimumFamilySizeSpinner = ((AlertDialog)dialog).findViewById(R.id.editLargeFamilyMinimumSpinner);
                 currentlyCountingCheckBox = ((AlertDialog)dialog).findViewById(R.id.currentlyCountingCheckBox);
+
+                Commodity commodity = new Commodity();
+
+                commodity.setSku(skuEditText.getText().toString());
+                commodity.setProductName(productNameEditText.getText().toString());
+                commodity.setDistributionPerBox(Integer.valueOf(perBoxEditText.getText().toString()));
+                commodity.setCurrentlyCounting(currentlyCountingCheckBox.isChecked());
+
+                switch (minimumFamilySizeSpinner.getSelectedItemPosition()){
+                    case 0:
+                        commodity.setLargeFamilyThreshold(ONE);
+                        break;
+
+                    case 1:
+                        commodity.setLargeFamilyThreshold(TWOTOTHREE);
+                        break;
+
+                    case 2:
+                        commodity.setLargeFamilyThreshold(FOURTOFIVE);
+                        break;
+
+                    case 3:
+                        commodity.setLargeFamilyThreshold(SIXPLUS);
+                        break;
+                }
+
+                FileManager.currentCommodities.add(commodity);
+                FileManager.adapter.notifyDataSetChanged();
             }
         });
 

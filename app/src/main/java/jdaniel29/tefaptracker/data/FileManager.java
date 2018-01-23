@@ -23,6 +23,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class FileManager {
+    public static CommodityAdapter adapter;
 
     //External Public Directory Home for the Files
     public static File currentFileDir = new File(Environment.getExternalStorageDirectory() +

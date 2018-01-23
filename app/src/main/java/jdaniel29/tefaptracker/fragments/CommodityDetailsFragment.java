@@ -21,7 +21,7 @@ public class CommodityDetailsFragment extends Fragment {
     Spinner minimumFamilySizeSpinner;
     CheckBox currentlyCountingCheckBox;
 
-    Button submitButton, cancelButton;
+    Button submitButton, cancelButton, removeButton;
 
     LinearLayout buttonHolder;
 
@@ -48,6 +48,7 @@ public class CommodityDetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         submitButton = view.findViewById(R.id.confirmChangesButton);
         cancelButton = view.findViewById(R.id.cancelChangesButton);
+        removeButton = view.findViewById(R.id.removeButton);
 
         skuEditText = view.findViewById(R.id.editskuTextBox);
         productNameEditText = view.findViewById(R.id.editNameTextBox);
@@ -85,7 +86,12 @@ public class CommodityDetailsFragment extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Commodity commodity = new Commodity();
+                Commodity commodity;
+                if(currentCommodityIndex != null) {
+                    commodity = FileManager.currentCommodities.get(currentCommodityIndex);
+                } else {
+                    commodity = new Commodity();
+                }
 
                 commodity.setSku(skuEditText.getText().toString());
                 commodity.setProductName(productNameEditText.getText().toString());
@@ -117,7 +123,17 @@ public class CommodityDetailsFragment extends Fragment {
                     FileManager.currentCommodities.add(commodity);
                 }
 
-                adapter.notifyDataSetChanged();
+                ((Tracker)getActivity()).setupButtonBarForMultiple();
+                //adapter.notifyDataSetChanged();
+                replaceFragment();
+            }
+        });
+
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FileManager.currentCommodities.remove((int)currentCommodityIndex);
+                ((Tracker)getActivity()).setupButtonBarForMultiple();
                 replaceFragment();
             }
         });
@@ -133,8 +149,12 @@ public class CommodityDetailsFragment extends Fragment {
 
     private void replaceFragment(){
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.trackerFragmentLayout, new AllCommodityDisplayFragment());
+        transaction.remove(this);
+        transaction.add(R.id.trackerFragmentLayout, new AllCommodityDisplayFragment(), ActivityConstants.allCommodityDisplayFragmentTag);
         transaction.commit();
+
+        //((Tracker)getActivity()).setupXMLVariables();
+        ((Tracker)getActivity()).setupButtonBarForMultiple();
     }
 
     public void setAdapter(CommodityAdapter commodityAdapter){

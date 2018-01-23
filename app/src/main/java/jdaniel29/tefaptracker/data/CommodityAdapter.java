@@ -28,4 +28,11 @@ public class CommodityAdapter extends ArrayAdapter<Commodity> {
         return convertView;
     }
 
+
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        System.out.println("NOTIFY CHANGED");
+    }
 }
