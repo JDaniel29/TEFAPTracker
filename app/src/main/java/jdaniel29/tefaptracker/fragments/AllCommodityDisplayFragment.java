@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import jdaniel29.tefaptracker.R;
+import jdaniel29.tefaptracker.activities.Tracker;
 import jdaniel29.tefaptracker.data.CommodityAdapter;
 import jdaniel29.tefaptracker.data.FileManager;
 
@@ -21,7 +22,6 @@ public class AllCommodityDisplayFragment extends Fragment {
     ListView commodityListView;
     Button createNewCommodity;
 
-    ButtonBarFragment buttonBarFragment;
 
     CommodityAdapter adapter;
 
@@ -63,15 +63,16 @@ public class AllCommodityDisplayFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.remove(allCommodityDisplayFragment);
 
-                AddCommodityFragmentDialog addCommodityFragmentDialog = new AddCommodityFragmentDialog();
-                addCommodityFragmentDialog.updateCommodity(FileManager.currentCommodities.get((int)id));
-                transaction.add(R.id.trackerFragmentLayout, addCommodityFragmentDialog);
+                CommodityDetailsFragment commodityDetailsFragment = new CommodityDetailsFragment();
+                commodityDetailsFragment.setCurrentCommodityIndex((int)(id));
+                commodityDetailsFragment.setAdapter(adapter);
+
+                transaction.replace(R.id.trackerFragmentLayout, commodityDetailsFragment);
                 transaction.commit();
 
+                ((Tracker)getActivity()).setupButtonBarForSingle((int)(id));
                 FileManager.currentIndex = (int)(id);
-                buttonBarFragment.setupSingleMode((int)(id));
 
 
 
@@ -83,17 +84,11 @@ public class AllCommodityDisplayFragment extends Fragment {
         return adapter;
     }
 
-    public void setButtonBarFragment(ButtonBarFragment fragment) {
-        buttonBarFragment = fragment;
-
-
-    }
 
     private void showAddCommodityDialog(){
 
 
         final AddCommodityFragmentDialog addCommodityFragmentDialog = new AddCommodityFragmentDialog();
-
         addCommodityFragmentDialog.show(getActivity().getSupportFragmentManager(), "Commodity Maker");
 
 

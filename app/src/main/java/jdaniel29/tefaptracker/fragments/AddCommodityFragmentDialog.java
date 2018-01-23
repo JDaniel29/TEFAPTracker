@@ -23,6 +23,8 @@ public class AddCommodityFragmentDialog extends DialogFragment {
     Spinner minimumFamilySizeSpinner;
     CheckBox currentlyCountingCheckBox;
 
+    Button confirmChangesButton, cancelChangesButton;
+
     LinearLayout buttonHolder;
 
     CommodityAdapter adapter;
@@ -38,7 +40,7 @@ public class AddCommodityFragmentDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        /*
+
         inflatedView = inflater.inflate(R.layout.fragment_add_commodity_dialog, container, false);
 
         skuEditText         = (EditText) inflatedView.findViewById(R.id.editskuTextBox);
@@ -49,8 +51,7 @@ public class AddCommodityFragmentDialog extends DialogFragment {
 
         currentlyCountingCheckBox = (CheckBox) inflatedView.findViewById(R.id.currentlyCountingCheckBox);
 
-        return inflatedView;*/
-        return inflater.inflate(R.layout.fragment_commodity_details, container, false);
+        return inflatedView;
     }
 
     @Override
@@ -92,34 +93,34 @@ public class AddCommodityFragmentDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.fragment_commodity_details, null);
+        View v = inflater.inflate(R.layout.fragment_add_commodity_dialog, null);
         builder.setView(v);
+
 
 
         //productNameEditText.setText("UFDBUFSB");
         //System.out.println(productNameEditText.getText().toString());
 
         builder.setTitle("Add a New Commodity");
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Add Commodity", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                skuEditText = ((AlertDialog)dialog).findViewById(R.id.editskuTextBox);
+                productNameEditText = ((AlertDialog)dialog).findViewById(R.id.editNameTextBox);
+                perBoxEditText = ((AlertDialog)dialog).findViewById(R.id.editPerBoxTextBox);
+
+                minimumFamilySizeSpinner = ((AlertDialog)dialog).findViewById(R.id.editLargeFamilyMinimumSpinner);
+                currentlyCountingCheckBox = ((AlertDialog)dialog).findViewById(R.id.currentlyCountingCheckBox);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                skuEditText         = (EditText) ((AlertDialog)dialog).findViewById(R.id.editskuTextBox);
-                productNameEditText = (EditText) ((AlertDialog)dialog).findViewById(R.id.editNameTextBox);
-                perBoxEditText      = (EditText) ((AlertDialog)dialog).findViewById(R.id.editPerBoxTextBox);
-
-                minimumFamilySizeSpinner = (Spinner) ((AlertDialog)dialog).findViewById(R.id.editLargeFamilyMinimumSpinner);
-
-                currentlyCountingCheckBox = (CheckBox) ((AlertDialog)dialog).findViewById(R.id.currentlyCountingCheckBox);
-
-                Commodity commodity = new Commodity(skuEditText.getText().toString(), productNameEditText.getText().toString(),
-                                                    Integer.valueOf(perBoxEditText.getText().toString()), currentlyCountingCheckBox.isChecked());
-
-                FileManager.currentCommodities.add(commodity);
-
-                adapter.notifyDataSetChanged();
             }
         });
+
 
 
 

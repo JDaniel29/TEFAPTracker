@@ -6,27 +6,34 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context="jdaniel29.tefaptracker.activities.Tracker"
-        android:layout_margin="4dp">
+        android:layout_margin="4dp"
+        android:weightSum="1">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:orientation="vertical"
-                android:id="@+id/trackerFragmentLayout" android:layout_weight=".6"/>
-
-
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight=".4"
-              android:id="@+id/buttonBarFragmentHolder" android:orientation="vertical"/>
-
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_weight=".05" android:gravity="center_horizontal">
-
-
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="@string/shareFile" android:id="@+id/shareFileButton"/>
-
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="@string/switchFile" android:id="@+id/changeFileButton"/>
-
+    <LinearLayout android:layout_width="match_parent" android:orientation="vertical" android:layout_weight=".6"
+                              android:id="@+id/trackerFragmentLayout" android:layout_height="0dp">
 
     </LinearLayout>
+
+
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight=".3"
+                      android:id="@+id/buttonBarFragmentHolder" android:orientation="vertical">
+
+            <include layout="@layout/layout_button_bar"/>
+        </LinearLayout>
+
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
+                          android:orientation="horizontal" android:layout_weight=".1" android:gravity="center_horizontal">
+
+
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/shareFile" android:id="@+id/shareFileButton"/>
+
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/switchFile" android:id="@+id/changeFileButton"/>
+
+
+        </LinearLayout>
+
 </LinearLayout>

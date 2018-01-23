@@ -4,73 +4,29 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
-              android:padding="16dp"
+            android:padding="10dp"
               android:id="@+id/commodity_details_layout">
 
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+            <include layout="@layout/fragment_add_commodity_dialog"    />
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp"
+                          android:orientation="horizontal" android:gravity="center_horizontal" android:layout_weight=".15">
 
 
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cancel Changes"
+                        android:id="@+id/cancelChangesButton"/>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_gravity="center_vertical">
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Confirm Changes"
+                        android:id="@+id/confirmChangesButton"/>
+            </LinearLayout>
 
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="@string/sku" android:layout_weight=".25" android:textColor="@android:color/black"
-                  android:textSize="18sp"/>
-
-        <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
-                  android:id="@+id/editskuTextBox" android:inputType="text"/>
-
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_gravity="center_vertical">
-
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="@string/productName" android:layout_weight=".25" android:textColor="@android:color/black"
-                  android:textSize="18sp"/>
-
-        <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".75"
-                  android:id="@+id/editNameTextBox" android:inputType="text"/>
-
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_gravity="center_vertical">
-
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="@string/perBox" android:layout_weight=".3" android:textColor="@android:color/black"
-                  android:textSize="18sp"/>
-
-        <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".7"
-                  android:id="@+id/editPerBoxTextBox" android:text="@string/default0" android:inputType="number"/>
-
-    </LinearLayout>
+        </LinearLayout>
 
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_gravity="center_vertical">
-
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="@string/minimumFamilySize" android:layout_weight=".6" android:textColor="@android:color/black"
-                  android:textSize="18sp" android:layout_gravity="fill"/>
-
-        <Spinner android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4"
-                 android:id="@+id/editLargeFamilyMinimumSpinner" />
-
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_gravity="center_vertical">
-
-        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
-                  android:text="@string/currentlyCounting" android:layout_weight=".8" android:textColor="@android:color/black"
-                  android:textSize="18sp" android:layout_gravity="fill"/>
-
-        <CheckBox android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".1"
-                  android:id="@+id/currentlyCountingCheckBox" android:text=""/>
-
-    </LinearLayout>
+    </ScrollView>
 
 
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/confirmChangesButton"/>
 </LinearLayout>
