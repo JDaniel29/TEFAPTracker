@@ -5,7 +5,7 @@ public class Commodity {
     private int distributionSizeOne,
                 distributionSizeTwoToThree,
                 distributionSizeFourToFive,
-                distributionSizeSixToSeven,
+            distributionSizeSixPlus,
                 distributionTotal,
                 distributionPerBox;
     private boolean currentlyCounting;
@@ -19,7 +19,7 @@ public class Commodity {
         distributionSizeOne          = 0;
         distributionSizeTwoToThree   = 0;
         distributionSizeFourToFive   = 0;
-        distributionSizeSixToSeven   = 0;
+        distributionSizeSixPlus      = 0;
         distributionTotal            = 0;
         distributionPerBox           = 0;
         largeFamilyThreshold         = FileManager.Size.ONE;
@@ -54,7 +54,7 @@ public class Commodity {
                 "\nDistribution 1: " + this.distributionSizeOne +
                 "\nDistribution 2-3: " + this.distributionSizeTwoToThree +
                 "\nDistribution 4-5: " + this.distributionSizeFourToFive +
-                "\nDistribution 6-7: " + this.distributionSizeSixToSeven +
+                "\nDistribution 6+: " + this.distributionSizeSixPlus +
                 "\nDistribution Per Box: " + this.distributionPerBox +
                 "\nDistribution Total: " + this.distributionTotal +
                 "\nMinimum Distribution Size: " + this.largeFamilyThreshold;
@@ -100,12 +100,12 @@ public class Commodity {
         this.distributionSizeFourToFive = distributionSizeFourToFive;
     }
 
-    public int getDistributionSizeSixToSeven() {
-        return distributionSizeSixToSeven;
+    public int getDistributionSizeSixPlus() {
+        return distributionSizeSixPlus;
     }
 
-    public void setDistributionSizeSixToSeven(int distributionSizeSixToSeven) {
-        this.distributionSizeSixToSeven = distributionSizeSixToSeven;
+    public void setDistributionSizeSixPlus(int distributionSizeSixPlus) {
+        this.distributionSizeSixPlus = distributionSizeSixPlus;
     }
 
     public int getDistributionPerBox() {
@@ -121,7 +121,7 @@ public class Commodity {
     }
 
     public void updateDistributionTotal(){
-        this.distributionTotal = this.distributionSizeOne + this.distributionSizeTwoToThree + this.distributionSizeFourToFive + this.distributionSizeSixToSeven;
+        this.distributionTotal = this.distributionSizeOne + this.distributionSizeTwoToThree + this.distributionSizeFourToFive + this.distributionSizeSixPlus;
     }
 
     public void setDistributionTotal(int distributionTotal) {

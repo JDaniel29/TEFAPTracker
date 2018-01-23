@@ -35,20 +35,20 @@ public class FileManager {
      *
      * Notice how I said link to the file. A file is not technically created until we write a value.
      */
-    public static File currentFile, globalCommodityFile;
+    public static File currentFile;
 
     /*
      * Strings of the variable names that will be used so we know how to arrange our table values.
      */
     private static final String[] localCommodityVars = {"sku", "productName", "distributionSizeOne", "distributionSizeTwoToThree",
-            "distributionSizeFourToFive", "distributionSizeSixToSeven", "distributionTotal", "distributionPerBox",
+            "distributionSizeFourToFive", "distributionSizeSixPlus", "distributionTotal", "distributionPerBox",
             "largeFamilyThreshold", "currentlyCounting"};
 
     /*
      * The localCommodityHeaders for readability by normal people. This is displayed in the CSV file.
      */
     private static final String[] localCommodityHeaders = {"SKU Number", "Product Name", "Size 1", "Size 2-3", "Size 4-5",
-            "Size 6-7", "Total", "Per Box", "Large Family Threshold", "Currently Counting"};
+            "Size 6+", "Total", "Per Box", "Large Family Threshold", "Currently Counting"};
 
 
     /*
@@ -144,87 +144,14 @@ public class FileManager {
         currentCommodities = new ArrayList<>();
         String[] headers = reader.getHeader(true); //This moves the reader by one line
 
+        while ((currentCommodity = reader.read(Commodity.class, localCommodityVars, localCommodityProcessors)) != null) {
+                System.out.println(currentCommodity.toString());
+                currentCommodities.add(currentCommodity);
 
-        /*
-        *
-        *So, this while loop is going to seem a little weird. What's happening is that we save the line we just read
-        * to a variable then check to see if there is an actual value. While we could do this with 2 lines (one for
-        * assigning and another for checking, I just ripped this from the tutorial cause I'm lazy
-        */
-        if(headers == oldVarsAndProcessors.oldHeaders1){ //Just to see if we have an old version of our commodities
-            while ((currentCommodity = reader.read(Commodity.class, oldVarsAndProcessors.oldVars1, oldVarsAndProcessors.oldProcessors1)) != null){
-                System.out.println(currentCommodity.toString());
-                currentCommodities.add(currentCommodity);
-            }
-        } else if(headers == oldVarsAndProcessors.oldHeaders2) {
-            while ((currentCommodity = reader.read(Commodity.class, oldVarsAndProcessors.oldVars2, oldVarsAndProcessors.oldProcessors2)) != null) {
-                System.out.println(currentCommodity.toString());
-                currentCommodities.add(currentCommodity);
-            }
-        } else {
-            while ((currentCommodity = reader.read(Commodity.class, localCommodityVars, localCommodityProcessors)) != null) {
-                System.out.println(currentCommodity.toString());
-                currentCommodities.add(currentCommodity);
-            }
         }
 
     }
 
 
-    /**
-     * This method takes the commodities that are in the arraylist and lists them in the
-     * listView. Simple, right?
-     *
-     * @param activity
-     * The current instance of the Tracker Activity.
-     *
-     * @param listView
-     * The listview we are working with.
-     */
-    public static void listCommodities(final Activity activity, ListView listView){
-        //If there are no commodities, we only need to have one listing saying to add a new product
-        if(currentCommodities == null){
-            String[] commodityNames = {"Add New Product"};
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, layout.simple_list_item_1, commodityNames);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    //showAddProductDialog(activity);
-                }
-            });
-            return;
-        }
 
-        //If there aren't any commodities to be working with, then we just need to alert the user's there's not jack.
-        if(currentCommodities.size() == 0 || currentCommodities == null){
-            Toast.makeText(activity, "No Commodities in File", Toast.LENGTH_SHORT).show();
-        }
-
-        //We have an array of +1 elements cause the last listing will be to add a new product
-        String[] commodityNames = new String[currentCommodities.size()+1];
-        for(int i = 0; i < currentCommodities.size(); i++){
-            commodityNames[i] = currentCommodities.get(i).getProductName() + "   -   " + currentCommodities.get(i).getDistributionTotal() + " Distributed.";
-        }
-        commodityNames[currentCommodities.size()] = "Add New Product";
-
-        //The adapter to display the stuff in the listview
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(activity, layout.simple_list_item_1, commodityNames);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i < currentCommodities.size()) {
-                    AddCommodityFragmentDialog detailsFragment = new AddCommodityFragmentDialog();
-                    detailsFragment.updateCommodity(currentCommodities.get((int) l));
-                    //detailsFragment.show
-                    //showCommodityAlert(activity, currentCommodities.get((int) l));
-                } else {
-                    //showAddProductDialog(activity);
-                }
-            }
-        });
-
-
-    }
 }

@@ -18,9 +18,6 @@ import jdaniel29.tefaptracker.data.FileManager;
 import jdaniel29.tefaptracker.fragments.AllCommodityDisplayFragment;
 import jdaniel29.tefaptracker.util.ActivityConstants;
 
-import java.io.File;
-import java.util.ArrayList;
-
 public class Tracker extends AppCompatActivity {
     Button changeFileButton, shareFileButton, add1CommodityButton, add23CommodityButton,
             add45CommodityButton, add6PlusCommodityButton;
@@ -188,7 +185,7 @@ public class Tracker extends AppCompatActivity {
             public void onClick(View view) {
                 for(Commodity commodity : FileManager.currentCommodities){
                     if(Boolean.valueOf(commodity.getCurrentlyCounting())){
-                        commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + commodity.getDistributionPerBox()*multiplier);
+                        commodity.setDistributionSizeSixPlus(commodity.getDistributionSizeSixPlus() + commodity.getDistributionPerBox()*multiplier);
                         commodity.updateDistributionTotal();
                     }
                 }
@@ -254,7 +251,7 @@ public class Tracker extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(Boolean.valueOf(commodity.getCurrentlyCounting())){
-                    commodity.setDistributionSizeSixToSeven(commodity.getDistributionSizeSixToSeven() + commodity.getDistributionPerBox()*multiplier);
+                    commodity.setDistributionSizeSixPlus(commodity.getDistributionSizeSixPlus() + commodity.getDistributionPerBox()*multiplier);
                     FileManager.currentCommodities.set(index, commodity);
                     commodity.updateDistributionTotal();
                 }
@@ -278,7 +275,7 @@ public class Tracker extends AppCompatActivity {
                 totalOnes      += commodity.getDistributionSizeOne();
                 totalTwoThrees += commodity.getDistributionSizeTwoToThree();
                 totalFourFives += commodity.getDistributionSizeFourToFive();
-                totalSixPlus   += commodity.getDistributionSizeSixToSeven();
+                totalSixPlus   += commodity.getDistributionSizeSixPlus();
             }
         } else {
             Commodity commodity = FileManager.currentCommodities.get(index);
@@ -286,7 +283,7 @@ public class Tracker extends AppCompatActivity {
             totalOnes = commodity.getDistributionSizeOne();
             totalTwoThrees = commodity.getDistributionSizeTwoToThree();
             totalFourFives = commodity.getDistributionSizeFourToFive();
-            totalSixPlus = commodity.getDistributionSizeSixToSeven();
+            totalSixPlus = commodity.getDistributionSizeSixPlus();
         }
 
         totalOnesTextView     .setText(String.valueOf(totalOnes));
