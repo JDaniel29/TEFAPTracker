@@ -1,24 +1,19 @@
 package jdaniel29.tefaptracker.fragments;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import jdaniel29.tefaptracker.R;
-import jdaniel29.tefaptracker.data.Commodity;
 import jdaniel29.tefaptracker.data.CommodityAdapter;
 import jdaniel29.tefaptracker.data.FileManager;
 
@@ -26,7 +21,7 @@ public class AllCommodityDisplayFragment extends Fragment {
     ListView commodityListView;
     Button createNewCommodity;
 
-
+    ButtonBarFragment buttonBarFragment;
 
     CommodityAdapter adapter;
 
@@ -54,21 +49,52 @@ public class AllCommodityDisplayFragment extends Fragment {
         return inflatedView;
     }
 
-    public void setupListView(){
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        final AllCommodityDisplayFragment allCommodityDisplayFragment = this;
+
         adapter = new CommodityAdapter(getContext(), FileManager.currentCommodities);
         commodityListView.setAdapter(adapter);
+
+        commodityListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.remove(allCommodityDisplayFragment);
+
+                AddCommodityFragmentDialog addCommodityFragmentDialog = new AddCommodityFragmentDialog();
+                addCommodityFragmentDialog.updateCommodity(FileManager.currentCommodities.get((int)id));
+                transaction.add(R.id.trackerFragmentLayout, addCommodityFragmentDialog);
+                transaction.commit();
+
+                FileManager.currentIndex = (int)(id);
+                buttonBarFragment.setupSingleMode((int)(id));
+
+
+
+            }
+        });
     }
 
     public CommodityAdapter getAdapter(){
         return adapter;
     }
 
+    public void setButtonBarFragment(ButtonBarFragment fragment) {
+        buttonBarFragment = fragment;
+
+
+    }
+
     private void showAddCommodityDialog(){
 
 
-        final CommodityDetailsFragment commodityDetailsFragment = new CommodityDetailsFragment(getAdapter());
+        final AddCommodityFragmentDialog addCommodityFragmentDialog = new AddCommodityFragmentDialog();
 
-        commodityDetailsFragment.show(getActivity().getSupportFragmentManager(), "Commodity Maker");
+        addCommodityFragmentDialog.show(getActivity().getSupportFragmentManager(), "Commodity Maker");
 
 
         /*
@@ -77,7 +103,7 @@ public class AllCommodityDisplayFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 Commodity commodity = new Commodity();
 
-                System.out.println(commodityDetailsFragment.getCommodity().getProductName());
+                System.out.println(addCommodityFragmentDialog.getCommodity().getProductName());
             }
         });
         builder.create().show();*/

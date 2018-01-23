@@ -5,7 +5,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.*;
 import android.R.layout;
-import jdaniel29.tefaptracker.fragments.CommodityDetailsFragment;
+import jdaniel29.tefaptracker.fragments.AddCommodityFragmentDialog;
 import org.supercsv.cellprocessor.ConvertNullTo;
 import org.supercsv.cellprocessor.ParseBool;
 import org.supercsv.cellprocessor.ParseEnum;
@@ -23,7 +23,6 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class FileManager {
-    CommodityAdapter adapter;
 
     //External Public Directory Home for the Files
     public static File currentFileDir = new File(Environment.getExternalStorageDirectory() +
@@ -73,6 +72,7 @@ public class FileManager {
         ONE, TWOTOTHREE, FOURTOFIVE, SIXPLUS;
     }
 
+    public static int currentIndex;
     /*
      * A private constructor is used here because no instances of FileManager need to be created. All
      * commands need to be called with FileManager.command().
@@ -214,7 +214,7 @@ public class FileManager {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i < currentCommodities.size()) {
-                    CommodityDetailsFragment detailsFragment = new CommodityDetailsFragment();
+                    AddCommodityFragmentDialog detailsFragment = new AddCommodityFragmentDialog();
                     detailsFragment.updateCommodity(currentCommodities.get((int) l));
                     //detailsFragment.show
                     //showCommodityAlert(activity, currentCommodities.get((int) l));

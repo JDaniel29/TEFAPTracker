@@ -4,6 +4,7 @@ import android.content.Context;
 import android.icu.text.SymbolTable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import jdaniel29.tefaptracker.R;
 import jdaniel29.tefaptracker.data.Commodity;
 import jdaniel29.tefaptracker.data.CommodityAdapter;
 import jdaniel29.tefaptracker.data.FileManager;
+import jdaniel29.tefaptracker.util.ActivityConstants;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ public class ButtonBarFragment extends Fragment {
 
     Mode mode;
     int multiplier, currentIndex;
+
+    AllCommodityDisplayFragment allCommodityDisplayFragment;
 
     public enum Mode{
         SINGLE, MULTIPLE;
@@ -64,13 +68,40 @@ public class ButtonBarFragment extends Fragment {
         return inflatedView;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        add1CommodityButton     = view.findViewById(R.id.add1CommodityButton);
+        add23CommodityButton    = view.findViewById(R.id.add23CommodityButton);
+        add45CommodityButton    = view.findViewById(R.id.add45CommodityButton);
+        add6PlusCommodityButton = view.findViewById(R.id.add6PlusCommodityButton);
+
+        totalOneCommodityTextView   = view.findViewById(R.id.totalOneCommodityTextView);
+        total23CommodityTextView    = view.findViewById(R.id.total23CommodityTextView);
+        total45CommodityTextView    = view.findViewById(R.id.total45CommodityTextView);
+        total6PlusCommodityTextView = view.findViewById(R.id.total6PlusCommodityTextView);
+
+        incrementAndDecrementToggle = view.findViewById(R.id.countingToggle);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        allCommodityDisplayFragment = (AllCommodityDisplayFragment)getActivity().getSupportFragmentManager().findFragmentByTag(ActivityConstants.allCommodityDisplayFragmentTag);
+
+
+        updateButtons();
+        updateTextViews();
+
+        //setupMultipleMode();
+    }
+
+
 
     public void setupMultipleMode(CommodityAdapter commodityAdapter){
         mode = Mode.MULTIPLE;
-
         adapter = commodityAdapter;
-        updateButtons();
-        updateTextViews();
 
         System.out.println("MULTIPLE MODE SET");
     }
